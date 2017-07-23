@@ -21,8 +21,8 @@ router.post("/register", (req, res) => {
         email: req.body.email,
         password: req.body.password
     })
-    .save((err, result) => {
-        if (err && err.code === 11000) {
+    .save((error, result) => {
+        if (error && error.code === 11000) {
             return global.errorHandler(res, 302, "Email already exist.");
         }
 

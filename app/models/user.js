@@ -1,6 +1,5 @@
 let bcrypt = global.variables.bcrypt,
     mongoose = global.variables.mongoose,
-    uuid = global.variables.uuid,
     Schema = mongoose.Schema,
     salt_round = 10;
 
@@ -20,12 +19,8 @@ let User = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    cards: {
-        type: Schema.Types.Array
-    },
-    notes: {
-        type: Schema.Types.Array
-    }
+    cards: [],
+    notes: []
 });
 
 User.pre("save", function(next) {

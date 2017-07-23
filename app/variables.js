@@ -9,19 +9,44 @@ let express = require("express"),
     cors = require("cors"),
     bcrypt = require("bcryptjs"),
     uuid = require("uuid"),
-    passport = require("passport");
+    passport = require("passport"),
+    uncapitalize = require('express-uncapitalize'),
+    helmet = require("helmet"),
+    compression = require("compression"),
+    types_card = ["credit", "normal", "orther"];
 
-global.errorHandler = (res, errorCode, errorMessage) => {
-    return res.send({
+global.errorHandler = (response, errorCode, errorMessage) => {
+    return response.send({
         errorCode,
         errorMessage
     })
 }
-global.successHandler = (res, successCode, successData) => {
-    return res.send({
+global.successHandler = (response, successCode, successData) => {
+    return response.send({
         successCode,
         successData
     })
+}
+global.isEmpty = (value, options) => {
+    function OptionsException() {
+        this.message = "\"" + options + "\"" + " is not a Array";
+        this.name = 'OptionsException';
+    }
+
+    if (value == null || 
+        value == "null" || 
+        value == "" || 
+        value == undefined || 
+        value == "undefined"
+    ) return true;
+
+    if (!Array.isArray(options) && options != null) throw new OptionsException();
+
+    if (options == null) return false;
+
+    if (options.indexOf(value) != -1) return false;
+
+    return false;
 }
 global.variables = {
     app,
@@ -34,5 +59,9 @@ global.variables = {
     uuid,
     passport,
     session,
-    cookieParser
+    cookieParser,
+    uncapitalize,
+    helmet,
+    compression,
+    types_card
 }

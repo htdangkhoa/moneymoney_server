@@ -5,15 +5,16 @@ let app =  global.variables.app,
     mongoose = global.variables.mongoose,
     passport = global.passport,
     cookieParser = global.variables.cookieParser,
-    session = global.variables.session;
+    session = global.variables.session,
+    uncapitalize = global.variables.uncapitalize,
+    helmet = global.variables.helmet,
+    compression = global.variables.compression;
 
 mongoose.connect(process.env.DB_HOST);
 
 app.use(morgan("dev"));
-// app.use(helmet({
-//   frameguard: false
-// }));
-// app.use(compression());
+app.use(helmet());
+app.use(compression());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,5 +27,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(uncapitalize());
 
 app.use("/", require("./routes/authentication"));
+app.use("/v1", require("./routes/api"));
