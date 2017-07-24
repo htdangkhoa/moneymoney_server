@@ -12,10 +12,32 @@ router.get("/", (req, res) => {
     return res.send("Please sign in.")
 })
 
-router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail" }) , (req, res) => {
+/**
+ * @function sign_in
+ * @instance
+ * @param {string} email Email
+ * @param {string} password Password
+ * @example <caption>Requesting /sign_in with the following POST data</caption>
+ * {
+ *  email: 'abc@gmail.com',
+ *  password: '1'
+ * }
+ */
+router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail" }), (req, res) => {
     res.redirect("/");
 })
 
+/**
+ * @function register
+ * @instance
+ * @param {string} email Email
+ * @param {string} password Password
+ * @example <caption>Requesting /register with the following POST data</caption>
+ * {
+ *  email: 'abc@gmail.com',
+ *  password: '1'
+ * }
+ */
 router.post("/register", (req, res) => {
     new User({
         email: req.body.email,
@@ -30,6 +52,11 @@ router.post("/register", (req, res) => {
     });
 });
 
+/**
+ * Delete session after signed in.
+ * @function sign_out
+ * @instance
+ */
 router.post("/sign_out", (req, res) => {
     req.logout();
     req.session.destroy();
