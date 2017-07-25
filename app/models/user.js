@@ -19,6 +19,10 @@ let User = new Schema({
         type: Schema.Types.String,
         required: true
     },
+    name: {
+        type: Schema.Types.String,
+        required: true
+    },
     cards: [],
     notes: []
 });

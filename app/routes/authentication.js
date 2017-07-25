@@ -30,24 +30,29 @@ router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail
  * @instance
  * @param {string} email Email (Required).
  * @param {string} password Password (Required).
+ * @param {string} name User's name (Required).
  * @example <caption>Requesting /register with the following POST data.</caption>
  * {
  *  email: 'abc@gmail.com',
- *  password: '1'
+ *  password: '1',
+ *  name: 'Abc'
  * }
  */
 router.post("/register", (req, res) => {
     var email = req.body.email,
-        password = req.body.password;
+        password = req.body.password,
+        name = req.body.name;
 
     if (
         global.isEmpty(email, null) || 
-        global.isEmpty(password, null)
+        global.isEmpty(password, null) || 
+        global.isEmpty(name, null)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     new User({
         email,
-        password
+        password,
+        name
     })
     .save((error, result) => {
         if (error && error.code === 11000) {
