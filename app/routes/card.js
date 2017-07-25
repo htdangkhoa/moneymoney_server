@@ -8,12 +8,12 @@ let User = global.User,
  * @param {string} type [credit|normal|orther] (Required).
  * @param {string} balance Balance of user's card (Required).
  * @param {string} name Card holder (Required).
- * @param {string} exp Expiration of user's card (timestamp) (Required).
+ * @param {string} exp Expiration of user's card [timestamp] (Required).
  * @param {string} number Card number (Required).
  * @param {string} cvv CVV of user's card (Required).
  * @param {string} note Note of card (Option).
  * @param {string} email email of user (Required).
- * @example <caption>Requesting /v1/create_card with the following POST data.</caption>
+ * @example <caption>Requesting /v1/card/create with the following POST data.</caption>
  * {
  *  type: credit,
  *  balance: 123456789,
