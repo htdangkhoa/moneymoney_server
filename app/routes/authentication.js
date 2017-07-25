@@ -2,14 +2,12 @@ let router = global.variables.router,
     User = global.User,
     passport = global.passport;
 
-router.get("/", (req, res) => {
-    console.log(req.user);
+router.all("/", (req, res) => {
+    if (
+        !req.user
+    )  return global.errorHandler(res, 401, "Unauthorized.");
 
-    if (req.user) {
-        return res.send("Signed in.")
-    }
-
-    return res.send("Please sign in.")
+    return global.successHandler(res, 200, "Signed in.");
 })
 
 /**
@@ -24,7 +22,7 @@ router.get("/", (req, res) => {
  * }
  */
 router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail" }), (req, res) => {
-    res.redirect("/");
+    return res.redirect("/");
 })
 
 /**
@@ -39,9 +37,17 @@ router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail
  * }
  */
 router.post("/register", (req, res) => {
+    var email = req.body.email,
+        password = req.body.password;
+
+    if (
+        global.isEmpty(email, null) || 
+        global.isEmpty(password, null)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
     new User({
-        email: req.body.email,
-        password: req.body.password
+        email,
+        password
     })
     .save((error, result) => {
         if (error && error.code === 11000) {
@@ -60,12 +66,12 @@ router.post("/register", (req, res) => {
 router.post("/sign_out", (req, res) => {
     req.logout();
     req.session.destroy();
-    console.log(req.session)
+    console.log(req.session);
     return res.redirect("/");
 })
 
 router.get("/fail", (req, res) => {
-    return res.send("FAIL.")
+    return global.errorHandler(res, 200, "Something went wrong.");
 })
 
 module.exports = router;

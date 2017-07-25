@@ -26,9 +26,9 @@ router.post("/record/create", (req, res) => {
         note = req.body.note,
         picture = req.body.picture;
 
-    if (!req.user) {
-        return res.send("Please sign in.");
-    }
+    if (
+        !req.user
+    ) return res.redirect("/");
 
     if (
         global.isEmpty(datetime, null) || 
