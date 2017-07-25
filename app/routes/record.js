@@ -7,8 +7,7 @@ router.post("/record/create", (req, res) => {
         card = req.body.card,
         value = req.body.value,
         note = req.body.note,
-        picture = req.body.picture,
-        email = req.body.email;
+        picture = req.body.picture;
 
     if (!req.user) {
         return res.send("Please sign in.");
@@ -18,8 +17,7 @@ router.post("/record/create", (req, res) => {
         global.isEmpty(datetime, null) || 
         global.isEmpty(category, null) || 
         global.isEmpty(card, null) || 
-        isNaN(parseInt(value)) || 
-        global.isEmpty(email, null)
+        isNaN(parseInt(value))
     ) return global.errorHandler(res, 400, "Bad request.");
 
     new Record({
