@@ -5,14 +5,14 @@ let User = global.User,
 /**
  * @function create_card
  * @instance
- * @param {string} type (credit|normal|orther)
- * @param {string} balance Balance of user's card
- * @param {string} name Card holder
- * @param {string} exp Expiration of user's card (timestamp)
- * @param {string} number Card number
- * @param {string} cvv CVV of user's card
- * @param {string} email email of user
- * @example <caption>Requesting /v1/create_card with the following POST data</caption>
+ * @param {string} type (credit|normal|orther).
+ * @param {string} balance Balance of user's card.
+ * @param {string} name Card holder.
+ * @param {string} exp Expiration of user's card (timestamp).
+ * @param {string} number Card number.
+ * @param {string} cvv CVV of user's card.
+ * @param {string} email email of user.
+ * @example <caption>Requesting /v1/create_card with the following POST data.</caption>
  * {
  *  type: credit,
  *  balance: 123456789,
@@ -64,8 +64,34 @@ router.post("/create_card", (req, res) => {
         return global.successHandler(res, 200, "Create card successfully.");
     })
     .catch(error => {
-        return res.send(error);
+        return global.errorHandler(res, 200, error);
     })
 });
+
+/**
+ * @function cards
+ * @instance
+ * @param {string} id Id of user.
+ * @example <caption>Requesting /v1/cards?id=59761a77393efd07a1f77a1e with the following GET data.</caption>
+ */
+router.get("/cards", (req, res) => {
+    var _id = req.param("id");
+    
+    if (_id === undefined) return global.errorHandler(res, 400, "Bad request.");
+
+    User.findOne({
+        _id
+    }, ["cards"])
+    .then(user => {
+        if (user.length === 0) {
+            return global.errorHandler(res, 404, "Email does not exist.");
+        }
+
+        return global.successHandler(res, 200, user);
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    })
+})
 
 module.exports = router;

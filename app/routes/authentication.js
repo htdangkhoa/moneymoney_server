@@ -15,9 +15,9 @@ router.get("/", (req, res) => {
 /**
  * @function sign_in
  * @instance
- * @param {string} email Email
- * @param {string} password Password
- * @example <caption>Requesting /sign_in with the following POST data</caption>
+ * @param {string} email Email.
+ * @param {string} password Password.
+ * @example <caption>Requesting /sign_in with the following POST data.</caption>
  * {
  *  email: 'abc@gmail.com',
  *  password: '1'
@@ -30,9 +30,9 @@ router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail
 /**
  * @function register
  * @instance
- * @param {string} email Email
- * @param {string} password Password
- * @example <caption>Requesting /register with the following POST data</caption>
+ * @param {string} email Email.
+ * @param {string} password Password.
+ * @example <caption>Requesting /register with the following POST data.</caption>
  * {
  *  email: 'abc@gmail.com',
  *  password: '1'

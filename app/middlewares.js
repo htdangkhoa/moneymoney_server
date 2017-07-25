@@ -30,4 +30,5 @@ app.use(passport.session());
 app.use(uncapitalize());
 
 app.use("/", require("./routes/authentication"));
-app.use("/v1", require("./routes/api"));
+app.use("/v1", require("./routes/card"));
+app.use("/v1", require("./routes/record"));
