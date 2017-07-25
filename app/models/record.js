@@ -22,7 +22,7 @@ let Record = new Schema({
         required: true
     },
     value: {
-        type: Schema.Types.String,
+        type: Schema.Types.Number,
         required: true
     },
     note: {

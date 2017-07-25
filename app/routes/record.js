@@ -12,8 +12,8 @@ let router = global.variables.router,
  * @param {string} picture Picture [Base64] (Option).
  * @example <caption>Requesting /v1/record/create with the following POST data.</caption>
  * {
- *  datetime: 123456789,
- *  category: 'Food'
+ *  datetime: 1500879600,
+ *  category: 'Food',
  *  card: 0c4f2df1-5229-406d-9548-337a2dcc6d15,
  *  value: 90000
  * }
@@ -48,6 +48,42 @@ router.post("/record/create", (req, res) => {
     .save();
 
     return global.successHandler(res, 201, "The record was created successfully.");
+});
+
+/**
+ * @function get_record_by_card_id
+ * @instance
+ * @param {string} id Id of card (Required).
+ * @example <caption>Requesting /v1/records?id=0c4f2df1-5229-406d-9548-337a2dcc6d15 with the following GET data.</caption>
+ */
+router.get("/records", (req, res) => {
+    var card = req.param("id");
+
+    if (
+        global.isEmpty(card, null)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    Record.aggregate([
+        {
+            $match: {
+                card
+            }
+        },
+        {
+            $group: {
+                _id: "$category", //GROUP BY QUERY.
+                total: {
+                    $sum: "$value"
+                }
+            }
+        }
+    ])
+    .then(result => {
+        return global.successHandler(res, 200, result);
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    })
 })
 
 module.exports = router;

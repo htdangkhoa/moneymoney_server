@@ -10,7 +10,6 @@ let express = require("express"),
     bcrypt = require("bcryptjs"),
     uuid = require("uuid"),
     passport = require("passport"),
-    uncapitalize = require('express-uncapitalize'),
     helmet = require("helmet"),
     compression = require("compression"),
     types_card = ["credit", "normal", "orther"];
@@ -60,7 +59,6 @@ global.variables = {
     passport,
     session,
     cookieParser,
-    uncapitalize,
     helmet,
     compression,
     types_card
