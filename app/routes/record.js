@@ -67,7 +67,8 @@ router.get("/records", (req, res) => {
         global.isEmpty(card, null)
     ) return global.errorHandler(res, 400, "Bad request.");
 
-    Record.aggregate([
+    Record
+    .aggregate([
         {
             $match: {
                 card
@@ -87,7 +88,71 @@ router.get("/records", (req, res) => {
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
+    });
+});
+
+/**
+ * @function get_record_by_category
+ * @instance
+ * @param {string} id Id of card (Required).
+ * @param {category} category [Food|Education|Sport|...] (Required).
+ * @example <caption>Requesting /v1/records?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
+ */
+router.get("/records", (req, res) => {
+    var card = req.param("id"),
+        category = req.param("category");
+
+    if (
+        !req.user
+    ) return res.redirect("/");
+
+    if (
+        global.isEmpty(card, null) || 
+        global.isEmpty(category, null)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    Record
+    .findOne({
+        card,
+        category
     })
-})
+    .then(result => {
+        return global.successHandler(res, 200, result);
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
+});
+
+/**
+ * @function delete_record
+ * @instance
+ * @param {string} id Record's id (Required).
+ * @example <caption>Requesting /v1/record/delete with the following DELETE data.</caption>
+ * {
+ *  id: 597776c62c41f00e56acdc7b
+ * }
+ */
+router.delete("/record/delete", (req, res) => {
+    var _id = req.body.id;
+
+    if (
+        !req.user
+    ) return res.redirect("/");
+
+    if (
+        global.isEmpty(_id, null)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    Record
+    .remove({ _id })
+    .exec()
+    .then(result => {
+        return global.successHandler(res, 200, "The record was deleted successfully.");
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
+});
 
 module.exports = router;

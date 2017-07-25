@@ -48,7 +48,8 @@ router.post("/card/create", (req, res) => {
         global.isEmpty(email, null)
     ) return global.errorHandler(res, 400, "Bad request.");
 
-    User.findOne({
+    User
+    .findOne({
         email
     })
     .then(user => {
@@ -65,7 +66,7 @@ router.post("/card/create", (req, res) => {
             number,
             cvv,
             note
-        })
+        });
         user.save();
 
         return global.successHandler(res, 201, "The card was created successfully.");
@@ -92,7 +93,8 @@ router.get("/cards", (req, res) => {
         global.isEmpty(_id, null)
     ) return global.errorHandler(res, 400, "Bad request.");
 
-    User.findOne({
+    User
+    .findOne({
         _id
     }, ["cards"])
     .then(user => {

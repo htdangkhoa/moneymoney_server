@@ -6,7 +6,8 @@ passport.use(new LocalStrategy({
     usernameField: "email",
     passwordField: "password"
 }, (email, password, done) => {
-  	User.findOne({
+    User
+    .findOne({
   		email
     })
     .then(user => {
@@ -31,7 +32,8 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-    User.findOne({
+    User
+    .findOne({
         email: user.email
     })
     .then(u => {
