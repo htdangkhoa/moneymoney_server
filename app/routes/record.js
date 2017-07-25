@@ -60,6 +60,10 @@ router.get("/records", (req, res) => {
     var card = req.param("id");
 
     if (
+        !req.user
+    ) return res.redirect("/");
+
+    if (
         global.isEmpty(card, null)
     ) return global.errorHandler(res, 400, "Bad request.");
 
