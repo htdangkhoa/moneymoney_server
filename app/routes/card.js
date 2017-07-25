@@ -5,13 +5,14 @@ let User = global.User,
 /**
  * @function create_card
  * @instance
- * @param {string} type (credit|normal|orther).
- * @param {string} balance Balance of user's card.
- * @param {string} name Card holder.
- * @param {string} exp Expiration of user's card (timestamp).
- * @param {string} number Card number.
- * @param {string} cvv CVV of user's card.
- * @param {string} email email of user.
+ * @param {string} type [credit|normal|orther] (Required).
+ * @param {string} balance Balance of user's card (Required).
+ * @param {string} name Card holder (Required).
+ * @param {string} exp Expiration of user's card (timestamp) (Required).
+ * @param {string} number Card number (Required).
+ * @param {string} cvv CVV of user's card (Required).
+ * @param {string} note Note of card (Option).
+ * @param {string} email email of user (Required).
  * @example <caption>Requesting /v1/create_card with the following POST data.</caption>
  * {
  *  type: credit,
@@ -23,13 +24,14 @@ let User = global.User,
  *  email: 'abc@gmail.com'
  * }
  */
-router.post("/create_card", (req, res) => {
+router.post("/card/create", (req, res) => {
     var type = req.body.type,
         balance = req.body.balance,
         name = req.body.name,
         exp = req.body.exp,
         number = req.body.number,
         cvv = req.body.cvv,
+        note = req.body.note,
         email = req.body.email;
 
     if (
@@ -57,11 +59,12 @@ router.post("/create_card", (req, res) => {
             name,
             exp,
             number,
-            cvv
+            cvv,
+            note
         })
         user.save();
 
-        return global.successHandler(res, 200, "Create card successfully.");
+        return global.successHandler(res, 201, "The card was created successfully.");
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
@@ -69,9 +72,9 @@ router.post("/create_card", (req, res) => {
 });
 
 /**
- * @function cards
+ * @function get_cards
  * @instance
- * @param {string} id Id of user.
+ * @param {string} id Id of user (Required).
  * @example <caption>Requesting /v1/cards?id=59761a77393efd07a1f77a1e with the following GET data.</caption>
  */
 router.get("/cards", (req, res) => {
