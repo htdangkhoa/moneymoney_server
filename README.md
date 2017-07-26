@@ -24,5 +24,7 @@ API | Description | Method | Params | Types
 `/v1/cards` | To get all info of user's card, you must **sign in** and enter id. | **GET** | `id` | String
 `/v1/record/create` | To create new record, you must **sign in** and enter datetime (timestamp), category, card's id and value. | **POST** | `datetime`, `category`, `card`, `value` | Number, String, String, Number
 `/v1/records` | To get total of each category, you must **sign in** and enter card's id. | **GET** | `id` | String
-`/v1/records` | To get record by category, you must **sign in** and enter card's id and category. | **GET** | `id`, `category` | String, String
+`/v1/records/<category>` | To get record by category, you must **sign in** and enter card's id and category. | **GET** | `id`, `category` | String, String
 `/v1/record/delete` | To delete a record, you must **sign in** and enter record's id. | **DELETE** | `id` | String
+`/v1/note/create` | To create new note, you must **sign in** and enter email. | **POST** | `email`, `title`, `content` | String, String, String
+`/v1/notes` | To get all notes of user, you must **sign in** and enter email. | **GET** | `email` | String
