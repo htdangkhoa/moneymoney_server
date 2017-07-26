@@ -24,9 +24,9 @@ Index | API | Description | Method | Params | Types
 **5** | `/info` | To edit info, you must **sign in** and enter email and name. | **PUT** | `email`, `name` | String, String
 **6** | `/v1/card/create` | To create card,  you must **sign in** and enter type, balance, name, expiration, card number, cvv and email. | **POST** | `type`, `balance`, `name`, `exp`, `number`, `cvv`, `email` | String, Number, String, Number, Number, Number, String
 **7** | `/v1/cards` | To get all info of user's card, you must **sign in** and enter id. | **GET** | `id` | String
-**8** | `/v1/record/create` | To create new record, you must **sign in** and enter datetime (timestamp), category, card's id and value. | **POST** | `datetime`, `category`, `card`, `value`, `note`, `picture` | Number, String, String, Number, String, String
+**8** | `/v1/record/create` | To create new record, you must **sign in** and enter datetime (timestamp), mode, category, card's id and value. **Notice**: Now, we just supported **Balance** and **Income**. | **POST** | `datetime`, `mode`, `category`, `card`, `value`, `note`, `picture` | Number, String, String, String, Number, String, String
 **9** | `/v1/records` | To get total of each category, you must **sign in** and enter card's id. | **GET** | `id` | String
-**10** | `/v1/records/<type>/<category>` | To get record by category, you must **sign in** and enter card's id, type and category. **Notice**:Now, we just supported **Balance** and **Income**. | **GET** | `id`, `type`, `category` | String, String
+**10** | `/v1/records/<mode>/<category>` | To get record by category, you must **sign in** and enter card's id, mode and category. **Notice**: Now, we just supported **Balance** and **Income**. | **GET** | `id`, `mode`, `category` | String, String
 **11** | `/v1/record/delete` | To delete a record, you must **sign in** and enter record's id. | **DELETE** | `id` | String
 **12** | `/v1/record/edit` | To edit record, you must **sign in** and enter id, datetime (timestamp), category, card's id and value. | **PUT** | `id`, `datetime`, `category`, `card`, `value`, `note`, `picture` | Number, String, String, Number, String, String
 **13** | `/v1/note/create` | To create new note, you must **sign in** and enter email. | **POST** | `email`, `title`, `content` | String, String, String
