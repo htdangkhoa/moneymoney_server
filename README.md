@@ -7,11 +7,11 @@
 ### #Development
 Install package `nodemon`.
 ```sh
-npm install -g nodemon
+$ npm install -g nodemon
 ```
 Config `HOST`, `PORT`, `DB_URI` in `.env` file and run this command.
 ```sh
-nodemon server.js
+$ nodemon server.js
 ```
 
 ### #API
