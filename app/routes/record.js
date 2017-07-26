@@ -154,4 +154,67 @@ router.delete("/record/delete", (req, res) => {
     });
 });
 
+/**
+ * @function edit_record
+ * @instance
+ * @param {string} id Id of record (Required).
+ * @param {string} datetime Date and time [timestamp] (Required).
+ * @param {string} category [Food|Education|Sport|...] (Required).
+ * @param {string} card Card id (Required).
+ * @param {string} value Money (Required).
+ * @param {string} note Note (Option).
+ * @param {string} picture Picture [Base64] (Option).
+ * @example <caption>Requesting /v1/record/edit with the following PUT data.</caption>
+ * {
+ *  id: '5978ae30a8782607e865ba62',
+ *  datetime: 1500879600,
+ *  category: 'Food',
+ *  card: 0c4f2df1-5229-406d-9548-337a2dcc6d15,
+ *  value: 90000
+ * }
+ */
+router.put("/record/edit", (req, res) => {
+    var _id = req.body.id,
+        datetime = req.body.datetime,
+        category = req.body.category,
+        card = req.body.card,
+        value = req.body.value,
+        note = req.body.note,
+        picture = req.body.picture;
+
+    if (
+        !req.user
+    ) return res.redirect("/");
+
+    if (
+        global.isEmpty(_id, null) || 
+        global.isEmpty(datetime, null) || 
+        global.isEmpty(category, null) || 
+        global.isEmpty(card, null) || 
+        isNaN(parseInt(value))
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    Record
+    .findOneAndUpdate({
+        _id
+    }, {
+        $set: {
+            datetime,
+            category,
+            card,
+            value,
+            note: note || "",
+            picture: picture || ""
+        }
+    })
+    .then(record => {
+        if (!record) return global.errorHandler(res, 404, "This record does not exist.");
+        
+        return global.successHandler(res, 200, "The record was updated successfully.");
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
+});
+
 module.exports = router;
