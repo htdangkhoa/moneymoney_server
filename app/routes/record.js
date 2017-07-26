@@ -47,7 +47,7 @@ router.post("/record/create", (req, res) => {
     })
     .save();
 
-    return global.successHandler(res, 201, "The record was created successfully.");
+    return global.successHandler(res, 200, "The record was created successfully.");
 });
 
 /**
@@ -98,9 +98,9 @@ router.get("/records", (req, res) => {
  * @param {category} category [Food|Education|Sport|...] (Required).
  * @example <caption>Requesting /v1/records?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
-router.get("/records", (req, res) => {
+router.get("/records/:category", (req, res) => {
     var card = req.param("id"),
-        category = req.param("category");
+        category = req.params.category;
 
     if (
         !req.user
@@ -112,7 +112,7 @@ router.get("/records", (req, res) => {
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Record
-    .findOne({
+    .find({
         card,
         category
     })

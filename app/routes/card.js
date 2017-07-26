@@ -53,9 +53,7 @@ router.post("/card/create", (req, res) => {
         email
     })
     .then(user => {
-        if (
-            user.length === 0
-        ) return global.errorHandler(res, 404, "Email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
 
         user.cards.push({
             id: uuid.v4(),
@@ -79,23 +77,23 @@ router.post("/card/create", (req, res) => {
 /**
  * @function get_cards
  * @instance
- * @param {string} id Id of user (Required).
+ * @param {string} email Email of user (Required).
  * @example <caption>Requesting /v1/cards?id=59761a77393efd07a1f77a1e with the following GET data.</caption>
  */
 router.get("/cards", (req, res) => {
-    var _id = req.param("id");
+    var email = req.param("email");
     
     if (
         !req.user
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(_id, null)
+        global.isEmpty(email, null)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
-    .findOne({
-        _id
+    .find({
+        email
     }, ["cards"])
     .then(user => {
         if (user.length === 0) {
