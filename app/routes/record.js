@@ -96,7 +96,7 @@ router.get("/records", (req, res) => {
  * @instance
  * @param {string} id Id of card (Required).
  * @param {category} category [Food|Education|Sport|...] (Required).
- * @example <caption>Requesting /v1/records?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
+ * @example <caption>Requesting /v1/records/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
 router.get("/records/:category", (req, res) => {
     var card = req.param("id"),
@@ -107,8 +107,7 @@ router.get("/records/:category", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(card, null) || 
-        global.isEmpty(category, null)
+        global.isEmpty(card, null)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Record
