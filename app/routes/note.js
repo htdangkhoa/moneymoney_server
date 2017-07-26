@@ -25,7 +25,7 @@ router.post("/note/create", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(email, null)
+        global.isEmpty(email)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
@@ -63,7 +63,7 @@ router.get("/notes", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(email, null)
+        global.isEmpty(email)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
@@ -106,7 +106,7 @@ router.delete("/note/delete", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(_id, null)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Note
@@ -145,7 +145,7 @@ router.put("/note/edit", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(_id, null)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Note

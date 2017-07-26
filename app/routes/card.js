@@ -41,11 +41,11 @@ router.post("/card/create", (req, res) => {
     if (
         global.variables.types_card.indexOf(type) === -1 ||
         isNaN(parseInt(balance)) ||
-        global.isEmpty(name, null) ||
-        global.isEmpty(exp, null) ||
-        global.isEmpty(number, null) ||
-        global.isEmpty(cvv, null) ||
-        global.isEmpty(email, null)
+        global.isEmpty(name) ||
+        global.isEmpty(exp) ||
+        global.isEmpty(number) ||
+        global.isEmpty(cvv) ||
+        global.isEmpty(email)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
@@ -88,7 +88,7 @@ router.get("/cards", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(email, null)
+        global.isEmpty(email)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User

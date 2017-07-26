@@ -44,9 +44,9 @@ router.post("/register", (req, res) => {
         name = req.body.name;
 
     if (
-        global.isEmpty(email, null) || 
-        global.isEmpty(password, null) || 
-        global.isEmpty(name, null)
+        global.isEmpty(email) || 
+        global.isEmpty(password) || 
+        global.isEmpty(name)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     new User({
@@ -89,7 +89,7 @@ router.get("/info", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(email, null)
+        global.isEmpty(email)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
@@ -127,8 +127,8 @@ router.put("/info", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(email, null) || 
-        global.isEmpty(name, null)
+        global.isEmpty(email) || 
+        global.isEmpty(name)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User

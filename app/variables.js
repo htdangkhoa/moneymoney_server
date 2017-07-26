@@ -26,24 +26,13 @@ global.successHandler = (response, successCode, successData) => {
         successData
     })
 }
-global.isEmpty = (value, options) => {
-    function OptionsException() {
-        this.message = "\"" + options + "\"" + " is not a Array";
-        this.name = 'OptionsException';
-    }
-
+global.isEmpty = (value) => {
     if (value == null || 
         value == "null" || 
         value == "" || 
         value == undefined || 
         value == "undefined"
     ) return true;
-
-    if (!Array.isArray(options) && options != null) throw new OptionsException();
-
-    if (options == null) return false;
-
-    if (options.indexOf(value) != -1) return false;
 
     return false;
 }

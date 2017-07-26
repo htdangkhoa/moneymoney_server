@@ -33,10 +33,10 @@ router.post("/record/create", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(datetime, null) || 
-        global.isEmpty(mode, null) || 
-        global.isEmpty(category, null) || 
-        global.isEmpty(card, null) || 
+        global.isEmpty(datetime) || 
+        global.isEmpty(mode) || 
+        global.isEmpty(category) || 
+        global.isEmpty(card) || 
         isNaN(parseInt(value))
     ) return global.errorHandler(res, 400, "Bad request.");
 
@@ -73,7 +73,7 @@ router.get("/records", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(card, null)
+        global.isEmpty(card)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Record
@@ -118,8 +118,8 @@ router.get("/records/:mode/:category", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(card, null) || 
-        global.isEmpty(mode, null)
+        global.isEmpty(card) || 
+        global.isEmpty(mode)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     if (
@@ -158,7 +158,7 @@ router.delete("/record/delete", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(_id, null)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Record
@@ -205,10 +205,10 @@ router.put("/record/edit", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(_id, null) || 
-        global.isEmpty(datetime, null) || 
-        global.isEmpty(category, null) || 
-        global.isEmpty(card, null) || 
+        global.isEmpty(_id) || 
+        global.isEmpty(datetime) || 
+        global.isEmpty(category) || 
+        global.isEmpty(card) || 
         isNaN(parseInt(value))
     ) return global.errorHandler(res, 400, "Bad request.");
 
