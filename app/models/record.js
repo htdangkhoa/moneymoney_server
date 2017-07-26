@@ -9,7 +9,12 @@ let Record = new Schema({
             return mongoose.Types.ObjectId();
         }
     },
+    
     datetime: {
+        type: Schema.Types.String,
+        required: true
+    },
+    type: {
         type: Schema.Types.String,
         required: true
     },

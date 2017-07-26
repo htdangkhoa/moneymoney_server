@@ -98,8 +98,9 @@ router.get("/records", (req, res) => {
  * @param {category} category [Food|Education|Sport|...] (Required).
  * @example <caption>Requesting /v1/records/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
-router.get("/records/:category", (req, res) => {
+router.get("/records/:mode/:category", (req, res) => {
     var card = req.param("id"),
+        mode = req.params.mode;
         category = req.params.category;
 
     if (
@@ -107,12 +108,19 @@ router.get("/records/:category", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(card, null)
+        global.isEmpty(card, null) || 
+        global.isEmpty(mode, null)
     ) return global.errorHandler(res, 400, "Bad request.");
+
+    if (
+        mode.toLowerCase() != "balance" && 
+        mode.toLowerCase() != "income"
+    ) return global.errorHandler(res, 200, "Now, we just supported 'Balance' and 'Income'.");
 
     Record
     .find({
         card,
+        mode,
         category
     })
     .then(result => {
