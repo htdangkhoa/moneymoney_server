@@ -23,8 +23,7 @@ let User = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    cards: [],
-    notes: []
+    cards: []
 });
 
 User.pre("save", function(next) {
