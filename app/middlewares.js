@@ -30,3 +30,4 @@ app.use(passport.session());
 app.use("/", require("./routes/authentication"));
 app.use("/v1", require("./routes/card"));
 app.use("/v1", require("./routes/record"));
+app.use("/v1", require("./routes/note"));
