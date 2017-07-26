@@ -9,7 +9,7 @@ let app =  global.variables.app,
     helmet = global.variables.helmet,
     compression = global.variables.compression;
 
-mongoose.connect(process.env.DB_HOST);
+mongoose.connect(process.env.DB_URI);
 
 app.use(morgan("dev"));
 app.use(helmet());
