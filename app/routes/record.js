@@ -5,6 +5,7 @@ let router = global.variables.router,
  * @function create_record
  * @instance
  * @param {string} datetime Date and time [timestamp] (Required).
+ * @param {string} mode [Balance|Income] (Required).
  * @param {string} category [Food|Education|Sport|...] (Required).
  * @param {string} card Card id (Required).
  * @param {string} value Money (Required).
@@ -20,6 +21,7 @@ let router = global.variables.router,
  */
 router.post("/record/create", (req, res) => {
     var datetime = req.body.datetime,
+        mode = req.body.mode,
         category = req.body.category,
         card = req.body.card,
         value = req.body.value,
@@ -32,13 +34,20 @@ router.post("/record/create", (req, res) => {
 
     if (
         global.isEmpty(datetime, null) || 
+        global.isEmpty(mode, null) || 
         global.isEmpty(category, null) || 
         global.isEmpty(card, null) || 
         isNaN(parseInt(value))
     ) return global.errorHandler(res, 400, "Bad request.");
 
+    if (
+        mode.toLowerCase() != "balance" && 
+        mode.toLowerCase() != "income"
+    ) return global.errorHandler(res, 200, "Now, we just supported 'Balance' and 'Income'.");
+
     new Record({
         datetime,
+        mode: mode.toLowerCase(),
         category,
         card,
         value,
@@ -95,8 +104,9 @@ router.get("/records", (req, res) => {
  * @function get_record_by_category
  * @instance
  * @param {string} id Id of card (Required).
+ * @param {string} mode [Balance|Income] (Required).
  * @param {category} category [Food|Education|Sport|...] (Required).
- * @example <caption>Requesting /v1/records/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
+ * @example <caption>Requesting /v1/records/Balance/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
 router.get("/records/:mode/:category", (req, res) => {
     var card = req.param("id"),

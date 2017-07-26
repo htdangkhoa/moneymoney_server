@@ -14,7 +14,7 @@ let Record = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    type: {
+    mode: {
         type: Schema.Types.String,
         required: true
     },
