@@ -37,8 +37,8 @@ router.post("/note/create", (req, res) => {
 
         new Note({
             email,
-            title,
-            content
+            title: title || "",
+            content: content || ""
         })
         .save();
 
@@ -83,6 +83,84 @@ router.get("/notes", (req, res) => {
         .catch(error => {
             return global.errorHandler(res, 200, error);
         });
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
+});
+
+/**
+ * @function delete_note
+ * @instance
+ * @param {string} id Id of note (Required).
+ * @example <caption>Requesting /v1/note/delete with the following DELETE data.</caption>
+ * {
+ *  id: 59789c0db2638003d2712f95
+ * }
+ */
+router.delete("/note/delete", (req, res) => {
+    var _id = req.body.id;
+
+    if (
+        !req.user
+    ) return res.redirect("/");
+
+    if (
+        global.isEmpty(_id, null)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    Note
+    .remove({
+        _id
+    })
+    .exec()
+    .then(result => {
+        return global.successHandler(res, 200, "The note was deleted successfully.");
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
+})
+
+/**
+ * @function edit_note
+ * @instance
+ * @param {string} title Title (Option).
+ * @param {string} content Content (Option).
+ * @param {string} id Id of note (Required).
+ * @example <caption>Requesting /v1/note/edit with the following PUT data.</caption>
+ * {
+ *  title: "",
+ *  content: "",
+ *  id: "59789c0db2638003d2712f95"
+ * }
+ */
+router.put("/note/edit", (req, res) => {
+    var _id = req.body.id,
+        title = req.body.title,
+        content = req.body.content;
+
+    if (
+        !req.user
+    ) return res.redirect("/");
+
+    if (
+        global.isEmpty(_id, null)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    Note
+    .findOneAndUpdate({
+        _id
+    }, {
+        $set: {
+            title: title || "",
+            content: content || ""
+        }
+    })
+    .then(note => {
+        if (!note) return global.errorHandler(res, 404, "This note does not exist.");
+
+        return global.successHandler(res, 200, "The record was updated successfully.");
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
