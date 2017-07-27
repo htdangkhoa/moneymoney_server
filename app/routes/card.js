@@ -26,7 +26,7 @@ let User = global.User,
  */
 router.post("/card/create", (req, res) => {
     var type = req.body.type,
-        balance = req.body.balance,
+        amount = req.body.amount,
         name = req.body.name,
         exp = req.body.exp,
         number = req.body.number,
@@ -40,7 +40,7 @@ router.post("/card/create", (req, res) => {
     
     if (
         global.variables.types_card.indexOf(type) === -1 ||
-        isNaN(parseInt(balance)) ||
+        isNaN(parseInt(amount)) ||
         global.isEmpty(name) ||
         global.isEmpty(exp) ||
         global.isEmpty(number) ||
@@ -58,7 +58,7 @@ router.post("/card/create", (req, res) => {
         user.cards.push({
             id: uuid.v4(),
             type,
-            balance,
+            amount,
             name,
             exp,
             number,
