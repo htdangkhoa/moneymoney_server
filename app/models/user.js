@@ -1,4 +1,5 @@
 let bcrypt = global.variables.bcrypt,
+    uuid = global.variables.uuid,
     mongoose = global.variables.mongoose,
     Schema = mongoose.Schema,
     salt_round = 10;
@@ -9,6 +10,10 @@ let User = new Schema({
         default: () => {
             return mongoose.Types.ObjectId();
         }
+    },
+    session: {
+        type: Schema.Types.String,
+        default: function() { return uuid.v4() }
     },
     email: {
         type: Schema.Types.String,

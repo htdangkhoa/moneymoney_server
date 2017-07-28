@@ -31,7 +31,6 @@ router.post("/card/create", (req, res) => {
         exp = req.body.exp,
         number = req.body.number,
         cvv = req.body.cvv,
-        note = req.body.note,
         email = req.body.email;
 
     if (
@@ -62,8 +61,7 @@ router.post("/card/create", (req, res) => {
             name,
             exp,
             number,
-            cvv,
-            note
+            cvv
         });
         user.save();
 

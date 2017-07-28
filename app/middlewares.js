@@ -1,4 +1,5 @@
-let app =  global.variables.app,
+let express = global.variables.express,
+    app =  global.variables.app,
     morgan = global.variables.morgan,
     cors = global.variables.cors,
     bodyParser = global.variables.bodyParser,
@@ -7,9 +8,13 @@ let app =  global.variables.app,
     cookieParser = global.variables.cookieParser,
     session = global.variables.session,
     helmet = global.variables.helmet,
-    compression = global.variables.compression;
+    compression = global.variables.compression,
+    admin = require('sriracha'),
+    ejs = require("ejs");
 
 mongoose.connect(process.env.DB_URI);
+
+app.set("view engine", "ejs");
 
 app.use(morgan("dev"));
 app.use(helmet());
@@ -27,7 +32,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/admin", admin({
+  User: {
+    searchField: "email"
+  }
+}));
+
 app.use("/", require("./routes/authentication"));
 app.use("/v1", require("./routes/card"));
 app.use("/v1", require("./routes/record"));
 app.use("/v1", require("./routes/note"));
+
+app.use((req, res) => {
+  res.status(404).render("404");
+})

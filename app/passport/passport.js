@@ -28,13 +28,13 @@ passport.use(new LocalStrategy({
 }));
 
 passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.session);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function(session, done) {
     User
     .findOne({
-        email: user.email
+        session
     })
     .then(u => {
         if (!u) return done(null, false);

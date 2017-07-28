@@ -1,6 +1,17 @@
 let router = global.variables.router,
+    uuid = global.variables.uuid,
     User = global.User,
-    passport = global.passport;
+    passport = global.passport,
+    nodemailer = require("nodemailer"),
+    transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // secure:true for port 465, secure:false for port 587
+        auth: {
+            user: 'huynhtran.dangkhoa@gmail.com',
+            pass: '01229088405lqd'
+        }
+    });
 
 router.all("/", (req, res) => {
     if (
@@ -73,6 +84,90 @@ router.post("/sign_out", (req, res) => {
     req.session.destroy();
     console.log(req.session);
     return res.redirect("/");
+});
+
+router.post("/forgot", (req, res) => {
+    var email = req.body.email;
+
+    if (
+        global.isEmpty(email)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    User
+    .findOne({
+        email
+    })
+    .then(user => {
+        if (!user) return global.errorHandler(res, 404, "This email does not exist.");
+
+        transporter.sendMail({
+            from: "MoneyMoneyApp",
+            to: "huynhtran.dangkhoa@gmail.com",
+            subject: "Password problem",
+            html: global.emailTemplate("http://" + req.headers.host + "/forgot/" + user.session)
+        }, (error, info) => {
+            if (error) return global.errorHandler(res, 200, "An error has occurred, please try again later.");
+            
+            return global.successHandler(res, 200, "Send mail successfully, please check mailbox.");
+        });
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
+});
+
+router.get("/forgot/:session", (req, res) => {
+    var session = req.params.session;
+
+    console.log(session)
+
+    if (
+        global.isEmpty(session)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    User
+    .findOne({
+        session
+    })
+    .then(user => {
+        if (!user) return global.renderHandler(res, 404, "404");
+
+        return global.renderHandler(res, 200, "index");
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
+});
+
+router.post("/reset/:session", (req, res) => {
+    var session = req.params.session,
+        newPassword = req.body.newPassword,
+        confirmPassword = req.body.confirmPassword;
+
+    if (
+        global.isEmpty(session) || 
+        global.isEmpty(newPassword) || 
+        global.isEmpty(confirmPassword)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    if (confirmPassword !== newPassword) return global.errorHandler(res, 200, "Confirm password is not matching.");
+
+    User
+    .findOne({
+        session
+    })
+    .then(user => {
+        if (!user) return global.errorHandler(res, 404, "This email does not exist.");
+
+        user.session = uuid.v4();
+        user.password = newPassword;
+        user.save();
+
+        return global.successHandler(res, 200, "Change password successfully.");
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, "Change password failed.")
+    });
 });
 
 /**
