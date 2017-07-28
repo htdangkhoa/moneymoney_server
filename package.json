@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.js"
   },
-  "author": "",
+  "author": "Huynh Tran Dang Khoa",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
