@@ -4,12 +4,12 @@ let router = global.variables.router,
     passport = global.passport,
     nodemailer = require("nodemailer"),
     transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: "smtp.gmail.com",
         port: 465,
         secure: true, // secure:true for port 465, secure:false for port 587
         auth: {
-            user: 'huynhtran.dangkhoa@gmail.com',
-            pass: '01229088405lqd'
+            user: "your_email",
+            pass: "your_password"
         }
     });
 
@@ -86,6 +86,15 @@ router.post("/sign_out", (req, res) => {
     return res.redirect("/");
 });
 
+/**
+ * @function Require_send_mail_to_reset_password
+ * @instance
+ * @param {string} email Email (Required).
+ * @example <caption>Requesting /forgot with the following POST data.</caption>
+ * {
+ *  email: 'abc@gmail.com'
+ * }
+ */
 router.post("/forgot", (req, res) => {
     var email = req.body.email;
 
@@ -102,7 +111,7 @@ router.post("/forgot", (req, res) => {
 
         transporter.sendMail({
             from: "MoneyMoneyApp",
-            to: "huynhtran.dangkhoa@gmail.com",
+            to: email,
             subject: "Password problem",
             html: global.emailTemplate("http://" + req.headers.host + "/forgot/" + user.session)
         }, (error, info) => {
@@ -116,6 +125,12 @@ router.post("/forgot", (req, res) => {
     });
 });
 
+/**
+ * @function Redirect_to_website_reset_password
+ * @instance
+ * @param {string} sesstion Session (Required).
+ * @example <caption>Requesting /forgot/8391d3aa-adc4-4990-8cba-431f6b6e6879 with the following GET data.</caption>
+ */
 router.get("/forgot/:session", (req, res) => {
     var session = req.params.session;
 
@@ -139,6 +154,18 @@ router.get("/forgot/:session", (req, res) => {
     });
 });
 
+/**
+ * @function Reset_password
+ * @instance
+ * @param {string} sesstion Session (Required).
+ * @param {string} newPassword New password (Required).
+ * @param {string} confirmPassword Confirm password (Required).
+ * @example <caption>Requesting /forgot/8391d3aa-adc4-4990-8cba-431f6b6e6879 with the following GET data.</caption>
+ * {
+ *  newPassword: '2',
+ *  confirmPassword: '2'
+ * }
+ */
 router.post("/reset/:session", (req, res) => {
     var session = req.params.session,
         newPassword = req.body.newPassword,
