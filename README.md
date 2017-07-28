@@ -9,7 +9,10 @@ Install package `nodemon`.
 ```sh
 $ npm install -g nodemon
 ```
-Config `HOST`, `PORT`, `DB_URI` in `.env` file and run this command.
+  - Config `HOST`, `PORT`, `DB_URI` in `.env` file.
+  - Config email in `./app/middlewares.js` file.  
+
+Run this command.
 ```sh
 $ nodemon server.js
 ```
@@ -35,3 +38,8 @@ Index | API | Description | Method | Params | Types
 **16** | `/v1/notes` | To get all notes of user, you must **sign in** and enter email. | **GET** | `email` | String
 **17** | `/v1/note/delete` | To delete note, you must **sign in** and enter id. | **DELETE** | `id` | String
 **18** | `/v1/note/edit` | To edit note, you must **sign in** and enter id. | **PUT** | `id`, `title`, `content` | String, String, String
+
+### #Screenshot
+![ScreenShot2017-07-28at1.18.46AM.png](http://sv1.upsieutoc.com/2017/07/28/ScreenShot2017-07-28at1.18.46AM.png)   
+![ScreenShot2017-07-28at5.16.58PM.png](http://sv1.upsieutoc.com/2017/07/28/ScreenShot2017-07-28at5.16.58PM.png)  
+![ScreenShot2017-07-28at5.17.04PM.png](http://sv1.upsieutoc.com/2017/07/28/ScreenShot2017-07-28at5.17.04PM.png)
