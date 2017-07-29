@@ -85,8 +85,10 @@ router.get("/records", (req, res) => {
         },
         {
             $group: {
-                _id: "$category", //GROUP BY QUERY.
-                total: {
+                _id: {
+                    category: "$category"
+                },
+                sum: {
                     $sum: "$value"
                 }
             }
@@ -106,7 +108,7 @@ router.get("/records", (req, res) => {
  * @param {string} id Id of card (Required).
  * @param {string} mode [Balance|Income] (Required).
  * @param {category} category [Food|Education|Sport|...] (Required).
- * @example <caption>Requesting /v1/records/Balance/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
+ * @example <caption>Requesting /v1/records/Expense/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
 router.get("/records/:mode/:category", (req, res) => {
     var card = req.param("id"),
@@ -123,9 +125,9 @@ router.get("/records/:mode/:category", (req, res) => {
     ) return global.errorHandler(res, 400, "Bad request.");
 
     if (
-        mode.toLowerCase() != "balance" && 
+        mode.toLowerCase() != "expense" && 
         mode.toLowerCase() != "income"
-    ) return global.errorHandler(res, 200, "Now, we just supported 'Balance' and 'Income'.");
+    ) return global.errorHandler(res, 200, "Now, we just supported 'Expense' and 'Income'.");
 
     Record
     .find({

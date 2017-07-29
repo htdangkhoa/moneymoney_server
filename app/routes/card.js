@@ -1,4 +1,5 @@
 let User = global.User,
+    Record = global.Record,
     router = global.variables.router,
     uuid = global.variables.uuid;
 
@@ -93,12 +94,46 @@ router.get("/cards", (req, res) => {
     .find({
         email
     }, ["cards"])
-    .then(user => {
-        if (user.length === 0) {
+    .then(result => {
+        // console.log(cards[0].cards)
+
+        result[0].cards.forEach(function(element, i) {
+            console.log(element.id)
+            
+            Record
+            .aggregate([
+                {
+                    $match: {
+                        card: element.id
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            mode: "$mode"
+                        },
+                        total: {
+                            $sum: "$value"
+                        }
+                    }
+                }
+            ])
+            .then(r => {
+                result[0].cards[i].current_balance = r;
+                if (
+                    i == result[0].cards.length -1
+                ) return global.successHandler(res, 200, result);
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        }, this);
+
+        if (result.length === 0) {
             return global.errorHandler(res, 404, "Email does not exist.");
         }
 
-        return global.successHandler(res, 200, user);
+        
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
