@@ -44,5 +44,5 @@ Index | API | Description | Method | Params | Types
 ![ScreenShot2017-07-28at5.16.58PM.png](http://sv1.upsieutoc.com/2017/07/28/ScreenShot2017-07-28at5.16.58PM.png)  
 ![ScreenShot2017-07-28at5.17.04PM.png](http://sv1.upsieutoc.com/2017/07/28/ScreenShot2017-07-28at5.17.04PM.png)
 
-### License
+## License
 [MIT](https://github.com/htdangkhoa/moneymoney_server/blob/master/LICENSE)
