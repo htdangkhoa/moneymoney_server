@@ -55,6 +55,12 @@ router.post("/card/create", (req, res) => {
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "Email does not exist.");
 
+        var cards = user.cards;
+
+        for (var i = 0; i < cards.length; i++) {
+            if (cards[i].number === number) return global.errorHandler(res, 302, "Card already exist.");
+        }
+
         user.cards.push({
             id: uuid.v4(),
             type,
