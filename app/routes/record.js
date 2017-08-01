@@ -184,7 +184,7 @@ router.delete("/record/delete", (req, res) => {
  * @param {string} value Money (Required).
  * @param {string} note Note (Option).
  * @param {string} picture Picture [Base64] (Option).
- * @example <caption>Requesting /v1/record/edit with the following PUT data.</caption>
+ * @example <caption>Requesting /v1/record/edit with the following PATCH data.</caption>
  * {
  *  id: '5978ae30a8782607e865ba62',
  *  datetime: 1500879600,
@@ -193,7 +193,7 @@ router.delete("/record/delete", (req, res) => {
  *  value: 90000
  * }
  */
-router.put("/record/edit", (req, res) => {
+router.patch("/record/edit", (req, res) => {
     var _id = req.body.id,
         datetime = req.body.datetime,
         category = req.body.category,

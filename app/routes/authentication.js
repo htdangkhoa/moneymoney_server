@@ -14,11 +14,7 @@ let router = global.variables.router,
     });
 
 router.all("/", (req, res) => {
-    if (
-        !req.user
-    )  return global.errorHandler(res, 401, "Unauthorized.");
-
-    return global.successHandler(res, 200, "Signed in.");
+    return global.successHandler(res, 200, "Hello MoneyMoney Server.");
 });
 
 /**
@@ -33,7 +29,7 @@ router.all("/", (req, res) => {
  * }
  */
 router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail" }), (req, res) => {
-    return res.redirect("/");
+    return res.redirect("/success");
 });
 
 /**
@@ -83,7 +79,7 @@ router.post("/sign_out", (req, res) => {
     req.logout();
     req.session.destroy();
     console.log(req.session);
-    return res.redirect("/");
+    return res.redirect("/success");
 });
 
 /**
@@ -233,14 +229,14 @@ router.get("/info", (req, res) => {
  * @instance
  * @param {string} name Name of user (Required).
  * @param {string} email Email of user (Required).
- * @example <caption>Requesting /info with the following PUT data.</caption>
+ * @example <caption>Requesting /info with the following PATCH data.</caption>
  * {
  *  title: "",
  *  content: "",
  *  id: "59789c0db2638003d2712f95"
  * }
  */
-router.put("/info", (req, res) => {
+router.patch("/info", (req, res) => {
     var email = req.body.email,
         name = req.body.name;
 
@@ -270,6 +266,14 @@ router.put("/info", (req, res) => {
         return global.errorHandler(res, 200, error);
     });
 });
+
+router.get("/success", (req, res) => {
+    if (
+        !req.user
+    )  return global.errorHandler(res, 401, "Unauthorized.");
+
+    return global.successHandler(res, 200, "Signed in.");
+})
 
 router.get("/fail", (req, res) => {
     return global.errorHandler(res, 200, "Something went wrong.");

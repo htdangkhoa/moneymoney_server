@@ -128,14 +128,14 @@ router.delete("/note/delete", (req, res) => {
  * @param {string} title Title (Option).
  * @param {string} content Content (Option).
  * @param {string} id Id of note (Required).
- * @example <caption>Requesting /v1/note/edit with the following PUT data.</caption>
+ * @example <caption>Requesting /v1/note/edit with the following PATCH data.</caption>
  * {
  *  title: "",
  *  content: "",
  *  id: "59789c0db2638003d2712f95"
  * }
  */
-router.put("/note/edit", (req, res) => {
+router.patch("/note/edit", (req, res) => {
     var _id = req.body.id,
         title = req.body.title,
         content = req.body.content;
