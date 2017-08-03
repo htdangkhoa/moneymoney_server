@@ -3,6 +3,10 @@ $red: rgb(202, 60, 60);
 $white: #ffffff;
 $gray: #525252;
 
+img { 
+    max-width: 100%;
+}
+
 .container {
     max-width: 990px;
     margin-left: auto;
@@ -17,11 +21,10 @@ $gray: #525252;
             font-size: 30px;
         }
 
-        label {
+        .error-message {
             color: $red;
             font-size: 14px;
-            margin: 0 0 .5em;
-            display: none;
+            margin: 0 0 .8em;
         }
 
         input {
@@ -85,4 +88,75 @@ $gray: #525252;
             margin: .5em 0;
         }
     }
+
+    .slide {
+        position: relative;
+        .intro-block {
+            text-align: -webkit-center;
+
+            img {
+                max-height: 450px;
+            }
+
+            h3, h1, p {
+                color: $white;
+                text-align: center;
+                margin: 0;
+            }
+            h1 {
+                font-size: 50px;
+                margin: 50px 0 25px;
+                text-transform: uppercase;
+                letter-spacing: 10px;
+            }
+            h3 {
+                font-size: 25px;
+                margin-bottom: 10px;
+                font-weight: 400;
+                letter-spacing: 2px;
+                text-align: left;
+            }
+            h3:before{
+                content: "• ";
+                padding: 0 10px;
+            }
+            .intro-info {
+                max-width: 650px;
+                margin: auto;
+            }
+
+            button {
+                i {
+                    padding: 0 10px;
+                }
+                background-color: rgba(0, 0, 0, .3);
+                color: $white;
+                height: 80px;
+                font-size: 2.2em;
+                text-transform: uppercase;
+                border-radius: 4px;
+                margin: 50px 0 30px;
+                padding-left: 110px;
+                padding-right: 110px;
+                letter-spacing: 3px;
+            }
+            button:hover {
+                background-color: rgba(0, 0, 0, .5);
+            }
+        }
+    }
+}
+
+.fp-controlArrow.fp-next {
+    border-color: transparent transparent transparent rgba(0, 0, 0, .15) !important;
+}
+.fp-controlArrow.fp-next:hover {
+    border-color: transparent transparent transparent rgba(0, 0, 0, .5) !important;
+}
+
+.fp-controlArrow.fp-prev {
+    border-color: transparent rgba(0, 0, 0, .15) transparent transparent !important;
+}
+.fp-controlArrow.fp-prev:hover {
+    border-color: transparent rgba(0, 0, 0, .5) transparent transparent !important;
 }

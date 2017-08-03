@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Reset password</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/styles.css" rel="stylesheet">
+        <link rel="stylesheet" href="/purecss/pure-min.css">
+    </head>
+    <body>
+        <div class="container">
+            <form class="pure-form" action="" method="POST">
+                <h2>Reset password</h2>
+
+                <fieldset class="pure-group">
+                    <input type="password" class="pure-input-1" placeholder="New password" name="newPassword" required id="new">
+                    <input type="password" class="pure-input-1" placeholder="Confirm password" name="confirmPassword" required id="confirm">
+                </fieldset>
+
+                <label for="error"><%= error %></label>
+
+                <button type="submit" class="pure-button pure-input-1 pure-button-primary">Reset password</button>
+            </form>
+        </div>
+    </body>
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(".pure-button").click((e) => {
+            var _new = $("#new").val();
+            var _confirm = $("#confirm").val();
+
+            if (_new !== _confirm) {
+                return false;
+            }
+
+            var arr = window.location.pathname.split( '/' ),
+                session = arr[arr.length-1];
+                
+            $(".pure-form").attr("action", "/reset/" + session);
+            $(".pure-button").submit();
+            return true;
+        })
+    </script>
+</html>

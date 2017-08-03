@@ -1,3 +1,7 @@
+@charset "UTF-8";
+img {
+  max-width: 100%; }
+
 .container {
   max-width: 990px;
   margin-left: auto;
@@ -8,11 +12,10 @@
     font-weight: 400;
     line-height: 1.4;
     font-size: 30px; }
-  .container .pure-form label {
+  .container .pure-form .error-message {
     color: #ca3c3c;
     font-size: 14px;
-    margin: 0 0 .5em;
-    display: none; }
+    margin: 0 0 .8em; }
   .container .pure-form input {
     color: #525252; }
   .container .pure-form button {
@@ -57,5 +60,59 @@
       color: #ffffff;
       font-size: 50px;
       margin: .5em 0; }
+  .container-full .slide {
+    position: relative; }
+    .container-full .slide .intro-block {
+      text-align: -webkit-center; }
+      .container-full .slide .intro-block img {
+        max-height: 450px; }
+      .container-full .slide .intro-block h3, .container-full .slide .intro-block h1, .container-full .slide .intro-block p {
+        color: #ffffff;
+        text-align: center;
+        margin: 0; }
+      .container-full .slide .intro-block h1 {
+        font-size: 50px;
+        margin: 50px 0 25px;
+        text-transform: uppercase;
+        letter-spacing: 10px; }
+      .container-full .slide .intro-block h3 {
+        font-size: 25px;
+        margin-bottom: 10px;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-align: left; }
+      .container-full .slide .intro-block h3:before {
+        content: "• ";
+        padding: 0 10px; }
+      .container-full .slide .intro-block .intro-info {
+        max-width: 650px;
+        margin: auto; }
+      .container-full .slide .intro-block button {
+        background-color: rgba(0, 0, 0, 0.3);
+        color: #ffffff;
+        height: 80px;
+        font-size: 2.2em;
+        text-transform: uppercase;
+        border-radius: 4px;
+        margin: 50px 0 30px;
+        padding-left: 110px;
+        padding-right: 110px;
+        letter-spacing: 3px; }
+        .container-full .slide .intro-block button i {
+          padding: 0 10px; }
+      .container-full .slide .intro-block button:hover {
+        background-color: rgba(0, 0, 0, 0.5); }
+
+.fp-controlArrow.fp-next {
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.15) !important; }
+
+.fp-controlArrow.fp-next:hover {
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.5) !important; }
+
+.fp-controlArrow.fp-prev {
+  border-color: transparent rgba(0, 0, 0, 0.15) transparent transparent !important; }
+
+.fp-controlArrow.fp-prev:hover {
+  border-color: transparent rgba(0, 0, 0, 0.5) transparent transparent !important; }
 
 /*# sourceMappingURL=styles.css.map */

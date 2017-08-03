@@ -14,7 +14,7 @@ let router = global.variables.router,
     });
 
 router.all("/", (req, res) => {
-    return global.successHandler(res, 200, "Hello MoneyMoney Server.");
+    return global.renderHandler(res, 200, "index");
 });
 
 /**
@@ -143,7 +143,7 @@ router.get("/forgot/:session", (req, res) => {
     .then(user => {
         if (!user) return global.renderHandler(res, 404, "404");
 
-        return global.renderHandler(res, 200, "index");
+        return global.renderHandler(res, 200, "forgot", { error: "" });
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
@@ -173,7 +173,7 @@ router.post("/reset/:session", (req, res) => {
         global.isEmpty(confirmPassword)
     ) return global.errorHandler(res, 400, "Bad request.");
 
-    if (confirmPassword !== newPassword) return global.errorHandler(res, 200, "Confirm password is not matching.");
+    if (confirmPassword !== newPassword) return global.renderHandler(res, 200, "forgot", { error: "Confirm password is not matching." });
 
     User
     .findOne({

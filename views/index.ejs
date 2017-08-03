@@ -1,38 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Reset password</title>
+        <title>M.Money</title>
         <meta charset="UTF-8">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="/assets/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/assets/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/assets/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/assets/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/assets/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/assets/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/assets/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/assets/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+        <link rel="manifest" href="/assets/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/assets/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="/styles.css" rel="stylesheet">
         <link rel="stylesheet" href="/purecss/pure-min.css">
+        <link rel="stylesheet" href="/fullPage/dist/jquery.fullpage.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
-        <div class="container">
-            <form class="pure-form" action="" method="POST">
-                <h2>Reset password</h2>
-
-                <fieldset class="pure-group">
-                    <input type="password" class="pure-input-1" placeholder="New password" name="newPassword" required>
-                    <input type="password" class="pure-input-1" placeholder="Confirm password" name="confirmPassword" required>
-                </fieldset>
-
-                <label for="error">Confirm password is not matching.</label>
-
-                <button type="submit" class="pure-button pure-input-1 pure-button-primary">Reset password</button>
-            </form>
+        <div class="container-full">
+            <div class="main-block">
+                <div id="fullpage">
+                    <div class="section">
+                        <div class="slide">
+                            <div class="intro-block">
+                                <img src="/assets/logo.svg" alt="">
+                                <h1>M.Money</h1>
+                                <div class="intro-info">
+                                    <h3>A beautiful money managemanagement app</h3>
+                                    <h3>Manage your spending efficiently</h3>
+                                    <h3>Simple and easy to use.</h3>
+                                </div>
+                                <button type="button" class="pure-button">
+                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                    Download now
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slide"> Slide 2 </div>
+                        <div class="slide"> Slide 3 </div>
+                        <div class="slide"> Slide 4 </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </body>
 
-    <script src="/jquery/dist/jquery.min.js"></script>
-    <script>
-        $(".pure-button").click((e) => {
-            var arr = window.location.pathname.split( '/' ),
-                session = arr[arr.length-1];
-                
-            $(".pure-form").attr("action", "/reset/" + session);
-            $(".pure-button").submit();
-            return true;
-        })
-    </script>
+        <script src="/jquery/dist/jquery.min.js"></script>
+        <script src="/fullPage/dist/jquery.fullpage.min.js"></script>
+        <script src="/fullPage/vendors/scrolloverflow.min.js"></script>
+        <script src="/fullPage/vendors/jquery.easings.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#fullpage").fullpage({
+                    slidesNavigation: true,
+                    slidesNavPosition: "bottom",
+                    responsiveSlides: true,
+                });
+            });
+        </script>
+    </body>
 </html>

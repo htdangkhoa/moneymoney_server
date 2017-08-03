@@ -326,7 +326,7 @@ global.successHandler = (response, code, successData) => {
     })
 }
   global.renderHandler = (response, code, filename, params) => {
-    return response.status(code).render(filename, params);
+    return response.status(code).render(filename, params || {});
 }
 global.isEmpty = (value) => {
     if (value == null || 
