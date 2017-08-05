@@ -9,8 +9,8 @@ Install package `nodemon`.
 ```sh
 $ npm install -g nodemon
 ```
-  - Config `HOST`, `PORT`, `DB_URI` in `.env` file.
-  - Config email in `./app/middlewares.js` file.  
+  - Config `PORT`, `DB_URI` in `.env` file.
+  - Config email in `./app/routes/authentication.js` file.  
 
 Run this command.
 ```sh
