@@ -30,7 +30,7 @@ router.post("/record/create", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(datetime) || 
@@ -70,7 +70,7 @@ router.get("/records", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(card)
@@ -117,7 +117,7 @@ router.get("/records/:mode/:category", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(card) || 
@@ -157,7 +157,7 @@ router.delete("/record/delete", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)
@@ -204,7 +204,7 @@ router.patch("/record/edit", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id) || 

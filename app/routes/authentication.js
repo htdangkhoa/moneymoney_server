@@ -2,6 +2,7 @@ let router = global.variables.router,
     uuid = global.variables.uuid,
     User = global.User,
     passport = global.passport,
+    cache = require("apicache").middleware,
     nodemailer = require("nodemailer"),
     transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -13,7 +14,7 @@ let router = global.variables.router,
         }
     });
 
-router.all("/", (req, res) => {
+router.all("/", cache("5 minutes"), (req, res) => {
     return global.renderHandler(res, 200, "index");
 });
 

@@ -22,7 +22,7 @@ router.post("/note/create", (req, res) => {
     
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(email)
@@ -60,7 +60,7 @@ router.get("/notes", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(email)
@@ -103,7 +103,7 @@ router.delete("/note/delete", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)
@@ -142,7 +142,7 @@ router.patch("/note/edit", (req, res) => {
 
     if (
         !req.user
-    ) return res.redirect("/");
+    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)

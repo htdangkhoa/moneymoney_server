@@ -9,7 +9,7 @@ let express = global.variables.express,
     session = global.variables.session,
     helmet = global.variables.helmet,
     compression = global.variables.compression,
-    admin = require('sriracha'),
+    admin = require("sriracha"),
     ejs = require("ejs");
 
 mongoose.connect(process.env.DB_URI);
@@ -24,8 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
-  cookieName: 'session',
-  secret: 'dAnGkho4*7896#',
+  cookieName: "session",
+  secret: "dAnGkho4*7896#",
   duration: 1000 * 60 * 60 * 24 * 365 * 999,
   // activeDuration: 5 * 60 * 1000,
 }));
