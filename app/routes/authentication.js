@@ -174,7 +174,7 @@ router.post("/reset/:session", (req, res) => {
         global.isEmpty(confirmPassword)
     ) return global.errorHandler(res, 400, "Bad request.");
 
-    if (confirmPassword !== newPassword) return global.renderHandler(res, 200, "forgot", { error: "Confirm password is not matching." });
+    if (confirmPassword !== newPassword) return global.renderHandler(res, 200, "forgot", { error: "Password is not matching." });
 
     User
     .findOne({

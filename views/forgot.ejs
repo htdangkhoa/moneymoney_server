@@ -17,7 +17,7 @@
                     <input type="password" class="pure-input-1" placeholder="Confirm password" name="confirmPassword" required id="confirm">
                 </fieldset>
 
-                <label for="error"><%= error %></label>
+                <div class="error-message"><%= error %></div>
 
                 <button type="submit" class="pure-button pure-input-1 pure-button-primary">Reset password</button>
             </form>
@@ -31,6 +31,7 @@
             var _confirm = $("#confirm").val();
 
             if (_new !== _confirm) {
+                $(".error-message").text("Password is not matching.");
                 return false;
             }
 
