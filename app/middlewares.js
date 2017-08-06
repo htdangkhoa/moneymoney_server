@@ -9,7 +9,7 @@ let express = global.variables.express,
     session = global.variables.session,
     helmet = global.variables.helmet,
     compression = global.variables.compression,
-    admin = require("sriracha"),
+    mongo_express = require("mongo-express/lib/middleware"),
     ejs = require("ejs");
 
 mongoose.connect(process.env.DB_URI);
@@ -32,10 +32,38 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/admin", admin({
-  User: {
-    searchField: "email"
-  }
+app.use("/admin", mongo_express({
+  mongodb: {
+    connectionString: process.env.DB_URI,
+
+    autoReconnect: true,
+    poolSize: 4,
+    admin: true,
+    auth: [],
+
+    adminUsername: "",
+    adminPassword: "",
+    whitelist: ["moneymoney"],
+    blacklist: [],
+  },
+
+  site: {},
+
+  useBasicAuth: true,
+  basicAuth: {
+    username: "admin",
+    password: "admin"
+  },
+
+  options: {
+    documentsPerPage: 10,
+    editorTheme: "monokai",
+
+    logger: { skip: () => true },
+    readOnly: false,
+  },
+
+  defaultKeyNames: {},
 }));
 
 app.use("/", require("./routes/authentication"));

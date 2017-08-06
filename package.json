@@ -20,6 +20,7 @@
     "ejs": "^2.5.6",
     "express": "^4.15.3",
     "helmet": "^3.8.0",
+    "mongo-express": "^0.42.0",
     "mongoose": "^4.9.10",
     "morgan": "^1.8.2",
     "nodemailer": "^4.0.1",
