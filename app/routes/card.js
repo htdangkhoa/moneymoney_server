@@ -226,6 +226,51 @@ router.patch("/card/edit", (req, res) => {
     })
 
     return res.send("ok")
-})
+});
+
+/**
+ * @function delete_card
+ * @instance
+ * @param {string} email Email (Required).
+ * @param {string} id Card id (Required).
+ * @example <caption>Requesting /v1/card/delete with the following DELETE data.</caption>
+ */
+router.delete("/card/delete", (req, res) => {
+    var email = req.body.email,
+        id = req.body.id;
+
+    if (
+        !req.user
+    ) return res.redirect("/success");
+    
+    if (
+        global.isEmpty(email) || 
+        global.isEmpty(id)
+    ) return global.errorHandler(res, 400, "Bad request.");
+
+    User
+    .findOne({
+        email
+    }, ["cards"])
+    .then(result => {
+        if (!result) {
+            return global.errorHandler(res, 404, "Email does not exist.");
+        }
+
+        var cards = result.cards;
+
+        for (var i = 0; i < cards.length; i++) {
+            if (id === cards[i].id) {
+                cards.splice(i, 1);
+
+                result.save();
+
+                return global.successHandler(res, 200, "The card was deleted successfully.");
+            }
+        }
+
+        return global.errorHandler(res, 404, "Card does not exist.");
+    });
+});
 
 module.exports = router;
