@@ -2,6 +2,8 @@ let router = global.variables.router,
     uuid = global.variables.uuid,
     User = global.User,
     passport = global.passport,
+    jwt = global.variables.jwt
+    secret = global.variables.secret,
     cache = require("apicache").middleware,
     nodemailer = require("nodemailer"),
     transporter = nodemailer.createTransport({
@@ -29,9 +31,51 @@ router.all("/", cache("5 minutes"), (req, res) => {
  *  password: '1'
  * }
  */
-router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail" }), (req, res) => {
-    return res.redirect("/success");
-});
+// router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail" }), (req, res) => {
+//     return res.redirect("/success");
+// });
+
+router.post("/sign_in", (req, res) => {
+    var email = req.body.email,
+        password = req.body.password;
+
+    User
+    .findOne({
+        email
+    })
+    .then(user => {
+        if (!user) console.log("not found")
+
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) console.log(err);
+
+            if (!isMatch) {
+                console.log('not match')
+            }else {
+                var payload = {
+                    email,
+                    password
+                }
+                var fs = require("fs");
+                var path = require('path')
+                var cert = fs.readFileSync(path.join(__dirname, "../../key"))
+                var token = jwt.sign(payload, secret);
+                console.log("token: ", token)
+            }
+
+            
+        });
+    })
+    .catch(error => {
+        console.log(error)
+    })
+
+    return res.send("test")
+})
+
+router.get("/test", passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json({message: "Success! You can not see this without a token"});
+})
 
 /**
  * @function register

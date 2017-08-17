@@ -30,7 +30,7 @@ app.use(session({
   // activeDuration: 5 * 60 * 1000,
 }));
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 app.use("/admin", mongo_express({
   mongodb: {

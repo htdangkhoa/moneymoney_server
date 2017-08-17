@@ -20,11 +20,13 @@
     "ejs": "^2.5.6",
     "express": "^4.15.3",
     "helmet": "^3.8.0",
+    "jsonwebtoken": "^7.4.2",
     "mongo-express": "^0.42.0",
     "mongoose": "^4.9.10",
     "morgan": "^1.8.2",
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
+    "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "sriracha": "^1.0.0",
     "uuid": "^3.1.0"
