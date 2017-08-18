@@ -3,13 +3,16 @@ let User = global.User,
     passportJWT = require('passport-jwt'),
     extractJwt = passportJWT.ExtractJwt;
     jwtStrategy = passportJWT.Strategy,
+    crypto = require("../crypto"),
     options = {
         jwtFromRequest: extractJwt.fromAuthHeader(),
         secretOrKey : global.variables.secret
     };
 
-passport.use(new jwtStrategy(options, (payload, done) => {
-    console.log("payload: ", payload);
+passport.use(new jwtStrategy(options, (data, done) => {
+    console.log("payload: ", data);
+
+    var payload = JSON.parse(crypto.decrypt(data));
 
     var email = payload.email,
         password = payload.password;

@@ -2,7 +2,8 @@ let router = global.variables.router,
     uuid = global.variables.uuid,
     User = global.User,
     passport = global.passport,
-    jwt = global.variables.jwt
+    jwt = global.variables.jwt,
+    crypto = require("../crypto"),
     secret = global.variables.secret,
     cache = require("apicache").middleware,
     nodemailer = require("nodemailer"),
@@ -44,34 +45,26 @@ router.post("/sign_in", (req, res) => {
         email
     })
     .then(user => {
-        if (!user) console.log("not found")
+        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
 
         user.comparePassword(password, function(err, isMatch) {
-            if (err) console.log(err);
+            if (err) return global.errorHandler(res, 200, err);
 
-            if (!isMatch) {
-                console.log('not match')
-            }else {
-                var payload = {
-                    email,
-                    password
-                }
-                var fs = require("fs");
-                var path = require('path')
-                var cert = fs.readFileSync(path.join(__dirname, "../../key"))
-                var token = jwt.sign(payload, secret);
-                console.log("token: ", token)
-            }
-
+            if (!isMatch) return global.errorHandler(res, 200, "Email or password is incorrect.");
             
+            var data = {
+                email,
+                password
+            }
+            var payload = crypto.encrypt(JSON.stringify(data));
+            var token = jwt.sign(payload, secret);
+            return global.successHandler(res, 302, { token });
         });
     })
     .catch(error => {
-        console.log(error)
-    })
-
-    return res.send("test")
-})
+        return global.errorHandler(res, 200, error);
+    });
+});
 
 router.get("/test", passport.authenticate('jwt', { session: false }), (req, res) => {
     res.json({message: "Success! You can not see this without a token"});
