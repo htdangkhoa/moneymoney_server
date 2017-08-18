@@ -12,8 +12,8 @@ let router = global.variables.router,
         port: 465,
         secure: true, // secure:true for port 465, secure:false for port 587
         auth: {
-            user: "your_email",
-            pass: "your_password"
+            user: "huynhtran.dangkhoa@gmail.com",
+            pass: "01229088405lqd"
         }
     });
 
@@ -58,17 +58,16 @@ router.post("/sign_in", (req, res) => {
             }
             var payload = crypto.encrypt(JSON.stringify(data));
             var token = jwt.sign(payload, secret);
-            return global.successHandler(res, 302, { token });
+            return global.successHandler(res, 302, {
+                id: user._id,
+                token
+            });
         });
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
     });
 });
-
-router.get("/test", passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json({message: "Success! You can not see this without a token"});
-})
 
 /**
  * @function register
@@ -109,18 +108,6 @@ router.post("/register", (req, res) => {
 });
 
 /**
- * Delete session after signed in.
- * @function sign_out
- * @instance
- */
-router.post("/sign_out", (req, res) => {
-    req.logout();
-    req.session.destroy();
-    console.log(req.session);
-    return res.redirect("/success");
-});
-
-/**
  * @function Require_send_mail_to_reset_password
  * @instance
  * @param {string} email Email (Required).
@@ -150,9 +137,9 @@ router.post("/forgot", (req, res) => {
             html: global.emailTemplate("http://" + req.headers.host + "/forgot/" + user.session)
         }, (error, info) => {
             if (error) return global.errorHandler(res, 200, "An error has occurred, please try again later.");
-            
-            return global.successHandler(res, 200, "Send mail successfully, please check mailbox.");
         });
+
+        return global.successHandler(res, 200, "Send mail successfully, please check mailbox.");
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
@@ -234,23 +221,23 @@ router.post("/reset/:session", (req, res) => {
 /**
  * @function get_info
  * @instance
- * @param {string} email Email of user (Required).
- * @example <caption>Requesting /info?email=abc@gmail.com with the following GET data.</caption>
+ * @param {string} id Id of user (Required).
+ * @example <caption>Requesting /info?id=599717c3f4c70605197d9ed8 with the following GET data.</caption>
  */
-router.get("/info", (req, res) => {
-    var email = req.param("email");
+router.get("/info", passport.authenticate("jwt", { session: false }), (req, res) => {
+    var _id = req.param("id");
 
     if (
         !req.user
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(email)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOne({
-        email
+        _id
     }, ["email", "name", "cards"])
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "This email does not exist.");
@@ -266,7 +253,7 @@ router.get("/info", (req, res) => {
  * @function edit_info
  * @instance
  * @param {string} name Name of user (Required).
- * @param {string} email Email of user (Required).
+ * @param {string} id Id of user (Required).
  * @example <caption>Requesting /info with the following PATCH data.</caption>
  * {
  *  title: "",
@@ -274,8 +261,8 @@ router.get("/info", (req, res) => {
  *  id: "59789c0db2638003d2712f95"
  * }
  */
-router.patch("/info", (req, res) => {
-    var email = req.body.email,
+router.patch("/info", passport.authenticate("jwt", { session: false }), (req, res) => {
+    var _id = req.body.id,
         name = req.body.name;
 
     if (
@@ -283,13 +270,13 @@ router.patch("/info", (req, res) => {
     ) return res.redirect("/");
 
     if (
-        global.isEmpty(email) || 
+        global.isEmpty(_id) || 
         global.isEmpty(name)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOneAndUpdate({
-        email
+        _id
     }, {
         $set: {
             name
@@ -303,18 +290,6 @@ router.patch("/info", (req, res) => {
     .catch(error => {
         return global.errorHandler(res, 200, error);
     });
-});
-
-router.get("/success", (req, res) => {
-    if (
-        !req.user
-    )  return global.errorHandler(res, 401, "Unauthorized.");
-
-    return global.successHandler(res, 200, "Signed in.");
-})
-
-router.get("/fail", (req, res) => {
-    return global.errorHandler(res, 200, "Something went wrong.");
 });
 
 module.exports = router;

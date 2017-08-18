@@ -19,7 +19,7 @@ let router = global.variables.router,
  *  value: 90000
  * }
  */
-router.post("/record/create", (req, res) => {
+router.post("/record/create", passport.authenticate("jwt", { session: false }), (req, res) => {
     var datetime = req.body.datetime,
         mode = req.body.mode,
         category = req.body.category,
@@ -65,7 +65,7 @@ router.post("/record/create", (req, res) => {
  * @param {string} id Id of card (Required).
  * @example <caption>Requesting /v1/records?id=0c4f2df1-5229-406d-9548-337a2dcc6d15 with the following GET data.</caption>
  */
-router.get("/records", (req, res) => {
+router.get("/records", passport.authenticate("jwt", { session: false }), (req, res) => {
     var card = req.param("id");
 
     if (
@@ -110,7 +110,7 @@ router.get("/records", (req, res) => {
  * @param {category} category [Food|Education|Sport|...] (Required).
  * @example <caption>Requesting /v1/records/Expense/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
-router.get("/records/:mode/:category", (req, res) => {
+router.get("/records/:mode/:category", passport.authenticate("jwt", { session: false }), (req, res) => {
     var card = req.param("id"),
         mode = req.params.mode;
         category = req.params.category;
@@ -152,7 +152,7 @@ router.get("/records/:mode/:category", (req, res) => {
  *  id: 597776c62c41f00e56acdc7b
  * }
  */
-router.delete("/record/delete", (req, res) => {
+router.delete("/record/delete", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id;
 
     if (
@@ -193,7 +193,7 @@ router.delete("/record/delete", (req, res) => {
  *  value: 90000
  * }
  */
-router.patch("/record/edit", (req, res) => {
+router.patch("/record/edit", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id,
         datetime = req.body.datetime,
         category = req.body.category,

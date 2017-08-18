@@ -1,7 +1,8 @@
 let User = global.User,
     Record = global.Record,
     router = global.variables.router,
-    uuid = global.variables.uuid;
+    uuid = global.variables.uuid,
+    passport = global.passport;
 
 /**
  * @function create_card
@@ -13,7 +14,7 @@ let User = global.User,
  * @param {string} number Card number (Required).
  * @param {string} cvv CVV of user's card (Required).
  * @param {string} note Note of card (Option).
- * @param {string} email email of user (Required).
+ * @param {string} id Id of user (Required).
  * @example <caption>Requesting /v1/card/create with the following POST data.</caption>
  * {
  *  type: credit,
@@ -22,17 +23,17 @@ let User = global.User,
  *  exp: 1500879600,
  *  number: '4214-9458-0103-2509',
  *  cvv: 961,
- *  email: 'abc@gmail.com'
+ *  id: '599717c3f4c70605197d9ed8'
  * }
  */
-router.post("/card/create", (req, res) => {
+router.post("/card/create", passport.authenticate("jwt", { session: false }), (req, res) => {
     var type = req.body.type,
         amount = req.body.amount,
         name = req.body.name,
         exp = req.body.exp,
         number = req.body.number,
         cvv = req.body.cvv,
-        email = req.body.email;
+        _id = req.body.id;
 
     if (
         !req.user
@@ -45,12 +46,12 @@ router.post("/card/create", (req, res) => {
         global.isEmpty(exp) ||
         global.isEmpty(number) ||
         global.isEmpty(cvv) ||
-        global.isEmpty(email)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOne({
-        email
+        _id
     })
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "Email does not exist.");
@@ -82,23 +83,19 @@ router.post("/card/create", (req, res) => {
 /**
  * @function get_cards
  * @instance
- * @param {string} email Email of user (Required).
- * @example <caption>Requesting /v1/cards?id=59761a77393efd07a1f77a1e with the following GET data.</caption>
+ * @param {string} id Id of user (Required).
+ * @example <caption>Requesting /v1/cards?id=599717c3f4c70605197d9ed8 with the following GET data.</caption>
  */
-router.get("/cards", (req, res) => {
-    var email = req.param("email");
-    
-    if (
-        !req.user
-    ) return res.redirect("/success");
+router.get("/cards", passport.authenticate("jwt", { session: false }), (req, res) => {
+    var _id = req.param("id");
 
     if (
-        global.isEmpty(email)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .find({
-        email
+        _id
     }, ["cards"])
     .then(result => {
         if (result.length === 0) return global.errorHandler(res, 404, "Email does not exist.");
@@ -143,13 +140,13 @@ router.get("/cards", (req, res) => {
     })
     .catch(error => {
         return global.errorHandler(res, 200, error);
-    })
+    });
 });
 
 /**
  * @function edit_card
  * @instance
- * @param {string} email Email (Required).
+ * @param {string} id_user Id of user (Required).
  * @param {string} id Card id (Required).
  * @param {string} type [credit|normal|orther] (Required).
  * @param {string} balance Balance of user's card (Required).
@@ -158,22 +155,20 @@ router.get("/cards", (req, res) => {
  * @param {string} number Card number (Required).
  * @param {string} cvv CVV of user's card (Required).
  * @param {string} note Note of card (Option).
- * @param {string} email email of user (Required).
  * @example <caption>Requesting /v1/card/edit with the following PATCH data.</caption>
  * {
- *  email: 'abc@gmail.com',
+ *  id_user: '599717c3f4c70605197d9ed8',
  *  id: '4e480b6d-7cfa-4a05-9509-db524863738d',
  *  type: credit,
  *  balance: 123456789,
  *  name: 'Huynh Tran Dang Khoa',
  *  exp: 1500879600,
  *  number: '4214-9458-0103-2509',
- *  cvv: 961,
- *  email: 'abc@gmail.com'
+ *  cvv: 961
  * }
  */
-router.patch("/card/edit", (req, res) => {
-    var email = req.body.email
+router.patch("/card/edit", passport.authenticate("jwt", { session: false }), (req, res) => {
+    var _id = req.body.id_user,
         id = req.body.id,
         type = req.body.type,
         amount = req.body.amount,
@@ -181,10 +176,6 @@ router.patch("/card/edit", (req, res) => {
         exp = req.body.exp,
         number = req.body.number,
         cvv = req.body.cvv;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
     
     if (
         global.variables.types_card.indexOf(type) === -1 ||
@@ -193,13 +184,13 @@ router.patch("/card/edit", (req, res) => {
         global.isEmpty(exp) ||
         global.isEmpty(number) ||
         global.isEmpty(cvv) ||
-        global.isEmpty(email) ||
+        global.isEmpty(_id) ||
         global.isEmpty(id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOne({
-        email
+        _id
     }, ["cards"])
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "Email does not exist.");
@@ -231,26 +222,22 @@ router.patch("/card/edit", (req, res) => {
 /**
  * @function delete_card
  * @instance
- * @param {string} email Email (Required).
+ * @param {string} id_user Id of user (Required).
  * @param {string} id Card id (Required).
  * @example <caption>Requesting /v1/card/delete with the following DELETE data.</caption>
  */
-router.delete("/card/delete", (req, res) => {
-    var email = req.body.email,
+router.delete("/card/delete", passport.authenticate("jwt", { session: false }), (req, res) => {
+    var _id = req.body.id_user,
         id = req.body.id;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
     
     if (
-        global.isEmpty(email) || 
+        global.isEmpty(_id) || 
         global.isEmpty(id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOne({
-        email
+        _id
     }, ["cards"])
     .then(result => {
         if (!result) {
