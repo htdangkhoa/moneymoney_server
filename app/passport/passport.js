@@ -10,8 +10,6 @@ let User = global.User,
     };
 
 passport.use(new jwtStrategy(options, (data, done) => {
-    console.log("payload: ", data);
-
     var payload = JSON.parse(crypto.decrypt(data));
 
     var email = payload.email,
@@ -22,7 +20,6 @@ passport.use(new jwtStrategy(options, (data, done) => {
   		email
     })
     .then(user => {
-
         if (!user) return done(null, false);
 
         user.comparePassword(password, function(err, isMatch) {

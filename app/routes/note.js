@@ -30,7 +30,7 @@ router.post("/note/create", passport.authenticate("jwt", { session: false }), (r
         _id
     })
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
         new Note({
             user: _id,
@@ -50,7 +50,7 @@ router.post("/note/create", passport.authenticate("jwt", { session: false }), (r
  * @function get_note_by_id
  * @instance
  * @param {string} id Id of user (Required).
- * @example <caption>Requesting /v1/notes?email=abc@gmail.com with the following GET data.</caption>
+ * @example <caption>Requesting /v1/notes?id=599717c3f4c70605197d9ed8 with the following GET data.</caption>
  */
 router.get("/notes", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.param("id");
@@ -64,7 +64,7 @@ router.get("/notes", passport.authenticate("jwt", { session: false }), (req, res
         _id
     })
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
         
         Note
         .find({

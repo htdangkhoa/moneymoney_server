@@ -50,7 +50,7 @@ router.post("/card/create", passport.authenticate("jwt", { session: false }), (r
         _id
     })
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
         var cards = user.cards;
 
@@ -94,7 +94,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false }), (req, res
         _id
     }, ["cards"])
     .then(result => {
-        if (result.length === 0) return global.errorHandler(res, 404, "Email does not exist.");
+        if (result.length === 0) return global.errorHandler(res, 404, "User does not exist.");
 
         result[0].cards.forEach(function(element, i) {
             console.log(element.id)
@@ -129,7 +129,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false }), (req, res
         }, this);
 
         if (result.length === 0) {
-            return global.errorHandler(res, 404, "Email does not exist.");
+            return global.errorHandler(res, 404, "User does not exist.");
         }
 
         
@@ -189,7 +189,7 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false }), (re
         _id
     }, ["cards"])
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
         var cards = user.cards;
 
@@ -237,7 +237,7 @@ router.delete("/card/delete", passport.authenticate("jwt", { session: false }), 
     }, ["cards"])
     .then(result => {
         if (!result) {
-            return global.errorHandler(res, 404, "Email does not exist.");
+            return global.errorHandler(res, 404, "User does not exist.");
         }
 
         var cards = result.cards;

@@ -66,7 +66,8 @@ app.use("/admin", mongo_express({
   defaultKeyNames: {},
 }));
 
-app.use("/", require("./routes/authentication"));
+app.use("/", require("./routes/index"));
+app.use("/v1", require("./routes/authentication"));
 app.use("/v1", require("./routes/user"));
 app.use("/v1", require("./routes/card"));
 app.use("/v1", require("./routes/record"));

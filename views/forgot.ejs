@@ -38,7 +38,7 @@
             var arr = window.location.pathname.split( '/' ),
                 session = arr[arr.length-1];
                 
-            $(".pure-form").attr("action", "/reset/" + session);
+            $(".pure-form").attr("action", "/authentication/reset/" + session);
             $(".pure-button").submit();
             return true;
         })

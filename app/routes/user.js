@@ -20,7 +20,7 @@ router.get("/info", passport.authenticate("jwt", { session: false }), (req, res)
         _id
     }, ["email", "name", "cards"])
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "This email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
         return global.successHandler(res, 201, user);
     })
@@ -36,8 +36,7 @@ router.get("/info", passport.authenticate("jwt", { session: false }), (req, res)
  * @param {string} id Id of user (Required).
  * @example <caption>Requesting /info with the following PATCH data.</caption>
  * {
- *  title: "",
- *  content: "",
+ *  name: "Dang Khoa",
  *  id: "59789c0db2638003d2712f95"
  * }
  */
@@ -59,7 +58,7 @@ router.patch("/info", passport.authenticate("jwt", { session: false }), (req, re
         }
     })
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "This email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
         return global.successHandler(res, 200, "Your info was updated successfully.");
     })

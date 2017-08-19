@@ -5,7 +5,6 @@ let router = global.variables.router,
     jwt = global.variables.jwt,
     crypto = require("../crypto"),
     secret = global.variables.secret,
-    cache = require("apicache").middleware,
     nodemailer = require("nodemailer"),
     transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -17,22 +16,18 @@ let router = global.variables.router,
         }
     });
 
-router.all("/", cache("5 minutes"), (req, res) => {
-    return global.renderHandler(res, 200, "index");
-});
-
 /**
  * @function sign_in
  * @instance
  * @param {string} email Email (Required).
  * @param {string} password Password (Required).
- * @example <caption>Requesting /sign_in with the following POST data.</caption>
+ * @example <caption>Requesting /authentication/sign_in with the following POST data.</caption>
  * {
  *  email: 'abc@gmail.com',
  *  password: '1'
  * }
  */
-router.post("/sign_in", (req, res) => {
+router.post("/authentication/sign_in", (req, res) => {
     var email = req.body.email,
         password = req.body.password;
 
@@ -70,14 +65,14 @@ router.post("/sign_in", (req, res) => {
  * @param {string} email Email (Required).
  * @param {string} password Password (Required).
  * @param {string} name User's name (Required).
- * @example <caption>Requesting /register with the following POST data.</caption>
+ * @example <caption>Requesting /authentication/register with the following POST data.</caption>
  * {
  *  email: 'abc@gmail.com',
  *  password: '1',
  *  name: 'Abc'
  * }
  */
-router.post("/register", (req, res) => {
+router.post("/authentication/register", (req, res) => {
     var email = req.body.email,
         password = req.body.password,
         name = req.body.name;
@@ -106,12 +101,12 @@ router.post("/register", (req, res) => {
  * @function Require_send_mail_to_reset_password
  * @instance
  * @param {string} email Email (Required).
- * @example <caption>Requesting /forgot with the following POST data.</caption>
+ * @example <caption>Requesting /authentication/forgot with the following POST data.</caption>
  * {
  *  email: 'abc@gmail.com'
  * }
  */
-router.post("/forgot", (req, res) => {
+router.post("/authentication/forgot", (req, res) => {
     var email = req.body.email;
 
     if (
@@ -145,9 +140,9 @@ router.post("/forgot", (req, res) => {
  * @function Redirect_to_website_reset_password
  * @instance
  * @param {string} sesstion Session (Required).
- * @example <caption>Requesting /forgot/8391d3aa-adc4-4990-8cba-431f6b6e6879 with the following GET data.</caption>
+ * @example <caption>Requesting /authentication/forgot/8391d3aa-adc4-4990-8cba-431f6b6e6879 with the following GET data.</caption>
  */
-router.get("/forgot/:session", (req, res) => {
+router.get("/authentication/forgot/:session", (req, res) => {
     var session = req.params.session;
 
     console.log(session)
@@ -176,13 +171,13 @@ router.get("/forgot/:session", (req, res) => {
  * @param {string} sesstion Session (Required).
  * @param {string} newPassword New password (Required).
  * @param {string} confirmPassword Confirm password (Required).
- * @example <caption>Requesting /forgot/8391d3aa-adc4-4990-8cba-431f6b6e6879 with the following GET data.</caption>
+ * @example <caption>Requesting /authentication/reset/8391d3aa-adc4-4990-8cba-431f6b6e6879 with the following POST data.</caption>
  * {
  *  newPassword: '2',
  *  confirmPassword: '2'
  * }
  */
-router.post("/reset/:session", (req, res) => {
+router.post("/authentication/reset/:session", (req, res) => {
     var session = req.params.session,
         newPassword = req.body.newPassword,
         confirmPassword = req.body.confirmPassword;
