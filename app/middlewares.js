@@ -22,16 +22,9 @@ app.use(compression());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(session({
-  cookieName: "session",
-  secret: "dAnGkho4*7896#",
-  duration: 1000 * 60 * 60 * 24 * 365 * 999,
-  // activeDuration: 5 * 60 * 1000,
-}));
 app.use(passport.initialize());
-// app.use(passport.session());
 
+app.use("/", require("./routes/index"));
 app.use("/admin", mongo_express({
   mongodb: {
     connectionString: process.env.DB_URI,
@@ -65,8 +58,6 @@ app.use("/admin", mongo_express({
 
   defaultKeyNames: {},
 }));
-
-app.use("/", require("./routes/index"));
 app.use("/v1", require("./routes/authentication"));
 app.use("/v1", require("./routes/user"));
 app.use("/v1", require("./routes/card"));

@@ -1,6 +1,6 @@
 var crypto = require("crypto"),
     algorithm = "aes-256-ctr",
-    secret = "Dangkhoa*7896";
+    secret = "05f86981b90e718dea9d070415344cba";
 
 module.exports = {
     encrypt: (data) => {
