@@ -1,11 +1,22 @@
 let User = global.User,
     passport = global.variables.passport,
-    LocalStrategy = require("passport-local").Strategy;
+    passportJWT = require('passport-jwt'),
+    extractJwt = passportJWT.ExtractJwt;
+    jwtStrategy = passportJWT.Strategy,
+    crypto = require("../crypto"),
+    options = {
+        jwtFromRequest: extractJwt.fromAuthHeader(),
+        secretOrKey : crypto.secret
+    };
 
-passport.use(new LocalStrategy({
-    usernameField: "email",
-    passwordField: "password"
-}, (email, password, done) => {
+passport.use(new jwtStrategy(options, (data, done) => {
+    console.log("payload: ", data);
+
+    var payload = JSON.parse(crypto.decrypt(data));
+
+    var email = payload.email,
+        password = payload.password;
+
     User
     .findOne({
   		email
@@ -26,24 +37,5 @@ passport.use(new LocalStrategy({
   		return done(error);
   	});
 }));
-
-passport.serializeUser(function(user, done) {
-    done(null, user.session);
-});
-
-passport.deserializeUser(function(session, done) {
-    User
-    .findOne({
-        session
-    })
-    .then(u => {
-        if (!u) return done(null, false);
-
-        return done(null, u);
-    })
-    .catch(error => {
-        return done(error);
-    });
-});
 
 global.passport = passport;

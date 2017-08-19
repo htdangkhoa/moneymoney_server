@@ -29,10 +29,6 @@ router.post("/record/create", passport.authenticate("jwt", { session: false }), 
         picture = req.body.picture;
 
     if (
-        !req.user
-    ) return res.redirect("/success");
-
-    if (
         global.isEmpty(datetime) || 
         global.isEmpty(mode) || 
         global.isEmpty(category) || 
@@ -67,10 +63,6 @@ router.post("/record/create", passport.authenticate("jwt", { session: false }), 
  */
 router.get("/records", passport.authenticate("jwt", { session: false }), (req, res) => {
     var card = req.param("id");
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(card)
@@ -116,10 +108,6 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
         category = req.params.category;
 
     if (
-        !req.user
-    ) return res.redirect("/success");
-
-    if (
         global.isEmpty(card) || 
         global.isEmpty(mode)
     ) return global.errorHandler(res, 400, "Bad request.");
@@ -154,10 +142,6 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
  */
 router.delete("/record/delete", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)
@@ -201,10 +185,6 @@ router.patch("/record/edit", passport.authenticate("jwt", { session: false }), (
         value = req.body.value,
         note = req.body.note,
         picture = req.body.picture;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id) || 

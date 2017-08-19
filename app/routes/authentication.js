@@ -12,8 +12,8 @@ let router = global.variables.router,
         port: 465,
         secure: true, // secure:true for port 465, secure:false for port 587
         auth: {
-            user: "huynhtran.dangkhoa@gmail.com",
-            pass: "01229088405lqd"
+            user: "your_email",
+            pass: "your_password"
         }
     });
 
@@ -32,10 +32,6 @@ router.all("/", cache("5 minutes"), (req, res) => {
  *  password: '1'
  * }
  */
-// router.post("/sign_in", passport.authenticate("local", { failureRedirect: "/fail" }), (req, res) => {
-//     return res.redirect("/success");
-// });
-
 router.post("/sign_in", (req, res) => {
     var email = req.body.email,
         password = req.body.password;
@@ -57,9 +53,8 @@ router.post("/sign_in", (req, res) => {
                 password
             }
             var payload = crypto.encrypt(JSON.stringify(data));
-            var token = jwt.sign(payload, secret);
+            var token = jwt.sign(payload, crypto.secret);
             return global.successHandler(res, 302, {
-                id: user._id,
                 token
             });
         });
@@ -215,80 +210,6 @@ router.post("/reset/:session", (req, res) => {
     })
     .catch(error => {
         return global.errorHandler(res, 200, "Change password failed.")
-    });
-});
-
-/**
- * @function get_info
- * @instance
- * @param {string} id Id of user (Required).
- * @example <caption>Requesting /info?id=599717c3f4c70605197d9ed8 with the following GET data.</caption>
- */
-router.get("/info", passport.authenticate("jwt", { session: false }), (req, res) => {
-    var _id = req.param("id");
-
-    if (
-        !req.user
-    ) return res.redirect("/");
-
-    if (
-        global.isEmpty(_id)
-    ) return global.errorHandler(res, 400, "Bad request.");
-
-    User
-    .findOne({
-        _id
-    }, ["email", "name", "cards"])
-    .then(user => {
-        if (!user) return global.errorHandler(res, 404, "This email does not exist.");
-
-        return global.successHandler(res, 201, user);
-    })
-    .catch(error => {
-        return global.errorHandler(res, 200, error);
-    });
-});
-
-/**
- * @function edit_info
- * @instance
- * @param {string} name Name of user (Required).
- * @param {string} id Id of user (Required).
- * @example <caption>Requesting /info with the following PATCH data.</caption>
- * {
- *  title: "",
- *  content: "",
- *  id: "59789c0db2638003d2712f95"
- * }
- */
-router.patch("/info", passport.authenticate("jwt", { session: false }), (req, res) => {
-    var _id = req.body.id,
-        name = req.body.name;
-
-    if (
-        !req.user
-    ) return res.redirect("/");
-
-    if (
-        global.isEmpty(_id) || 
-        global.isEmpty(name)
-    ) return global.errorHandler(res, 400, "Bad request.");
-
-    User
-    .findOneAndUpdate({
-        _id
-    }, {
-        $set: {
-            name
-        }
-    })
-    .then(user => {
-        if (!user) return global.errorHandler(res, 404, "This email does not exist.");
-
-        return global.successHandler(res, 200, "Your info was updated successfully.");
-    })
-    .catch(error => {
-        return global.errorHandler(res, 200, error);
     });
 });
 

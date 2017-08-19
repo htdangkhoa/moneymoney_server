@@ -34,10 +34,6 @@ router.post("/card/create", passport.authenticate("jwt", { session: false }), (r
         number = req.body.number,
         cvv = req.body.cvv,
         _id = req.body.id;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
     
     if (
         global.variables.types_card.indexOf(type) === -1 ||

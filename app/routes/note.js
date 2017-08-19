@@ -20,10 +20,6 @@ router.post("/note/create", passport.authenticate("jwt", { session: false }), (r
     var title = req.body.title,
         content = req.body.content,
         _id = req.body.id;
-    
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)
@@ -37,7 +33,7 @@ router.post("/note/create", passport.authenticate("jwt", { session: false }), (r
         if (!user) return global.errorHandler(res, 404, "Email does not exist.");
 
         new Note({
-            email: user.email,
+            user: _id,
             title: title || "",
             content: content || ""
         })
@@ -51,32 +47,28 @@ router.post("/note/create", passport.authenticate("jwt", { session: false }), (r
 });
 
 /**
- * @function get_note_by_email
+ * @function get_note_by_id
  * @instance
- * @param {string} id Id of card (Required).
+ * @param {string} id Id of user (Required).
  * @example <caption>Requesting /v1/notes?email=abc@gmail.com with the following GET data.</caption>
  */
 router.get("/notes", passport.authenticate("jwt", { session: false }), (req, res) => {
-    var email = req.param("email");
+    var _id = req.param("id");
 
     if (
-        !req.user
-    ) return res.redirect("/success");
-
-    if (
-        global.isEmpty(email)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOne({
-        email
+        _id
     })
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "Email does not exist.");
         
         Note
         .find({
-            email
+            user: _id
         })
         .then(notes => {
             return global.successHandler(res, 201, notes);
@@ -101,10 +93,6 @@ router.get("/notes", passport.authenticate("jwt", { session: false }), (req, res
  */
 router.delete("/note/delete", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)
@@ -140,10 +128,6 @@ router.patch("/note/edit", passport.authenticate("jwt", { session: false }), (re
     var _id = req.body.id,
         title = req.body.title,
         content = req.body.content;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)

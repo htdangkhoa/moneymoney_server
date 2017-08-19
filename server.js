@@ -3,8 +3,7 @@ require("./app/variables");
 require("./app/models/user");
 require("./app/models/record");
 require("./app/models/note");
-// require("./app/passport/passport");
-require("./app/passport/passport-jwt");
+require("./app/passport/passport");
 require("./app/middlewares");
 
 let app = global.variables.app,
