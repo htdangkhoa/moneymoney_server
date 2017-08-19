@@ -4,8 +4,6 @@ let express = require("express"),
     router = express.Router(),
     morgan = require("morgan"),
     mongoose = require("mongoose"),
-    cookieParser = require("cookie-parser"),
-    session = require('client-sessions'),
     bodyParser = require("body-parser"),
     cors = require("cors"),
     bcrypt = require("bcryptjs"),
@@ -326,7 +324,7 @@ global.successHandler = (response, code, successData) => {
         successData
     })
 }
-  global.renderHandler = (response, code, filename, params) => {
+global.renderHandler = (response, code, filename, params) => {
     return response.status(code).render(filename, params || {});
 }
 global.isEmpty = (value) => {
@@ -350,8 +348,6 @@ global.variables = {
     uuid,
     passport,
     jwt,
-    session,
-    cookieParser,
     helmet,
     compression,
     types_card
