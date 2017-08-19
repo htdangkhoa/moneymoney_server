@@ -1,42 +1,39 @@
 let router = global.variables.router
     Note = global.Note,
-    User = global.User;
+    User = global.User,
+    passport = global.passport;
 
 /**
  * @function create_note
  * @instance
  * @param {string} title Title (Option).
  * @param {string} content Content (Option).
- * @param {string} email Email (Required).
+ * @param {string} id Id of user (Required).
  * @example <caption>Requesting /v1/note/create with the following POST data.</caption>
  * {
  *  title: "",
  *  content: "",
- *  email: "abc@gmail.com"
+ *  id: "599717c3f4c70605197d9ed8"
  * }
  */
-router.post("/note/create", (req, res) => {
+router.post("/note/create", passport.authenticate("jwt", { session: false }), (req, res) => {
     var title = req.body.title,
         content = req.body.content,
-        email = req.body.email;
-    
-    if (
-        !req.user
-    ) return res.redirect("/success");
+        _id = req.body.id;
 
     if (
-        global.isEmpty(email)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOne({
-        email
+        _id
     })
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
         new Note({
-            email,
+            user: _id,
             title: title || "",
             content: content || ""
         })
@@ -50,32 +47,28 @@ router.post("/note/create", (req, res) => {
 });
 
 /**
- * @function get_note_by_email
+ * @function get_note_by_id
  * @instance
- * @param {string} email Email of card (Required).
- * @example <caption>Requesting /v1/notes?email=abc@gmail.com with the following GET data.</caption>
+ * @param {string} id Id of user (Required).
+ * @example <caption>Requesting /v1/notes?id=599717c3f4c70605197d9ed8 with the following GET data.</caption>
  */
-router.get("/notes", (req, res) => {
-    var email = req.param("email");
+router.get("/notes", passport.authenticate("jwt", { session: false }), (req, res) => {
+    var _id = req.param("id");
 
     if (
-        !req.user
-    ) return res.redirect("/success");
-
-    if (
-        global.isEmpty(email)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
     .findOne({
-        email
+        _id
     })
     .then(user => {
-        if (!user) return global.errorHandler(res, 404, "Email does not exist.");
+        if (!user) return global.errorHandler(res, 404, "User does not exist.");
         
         Note
         .find({
-            email
+            user: _id
         })
         .then(notes => {
             return global.successHandler(res, 201, notes);
@@ -98,12 +91,8 @@ router.get("/notes", (req, res) => {
  *  id: 59789c0db2638003d2712f95
  * }
  */
-router.delete("/note/delete", (req, res) => {
+router.delete("/note/delete", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)
@@ -135,14 +124,10 @@ router.delete("/note/delete", (req, res) => {
  *  id: "59789c0db2638003d2712f95"
  * }
  */
-router.patch("/note/edit", (req, res) => {
+router.patch("/note/edit", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id,
         title = req.body.title,
         content = req.body.content;
-
-    if (
-        !req.user
-    ) return res.redirect("/success");
 
     if (
         global.isEmpty(_id)

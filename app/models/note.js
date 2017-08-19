@@ -12,8 +12,8 @@ let Note = new Schema({
         type: Schema.Types.String,
         default: new Date().getTime()
     },
-    email: {
-        type: Schema.Types.String,
+    user: {
+        type: Schema.Types.ObjectId,
         required: true
     },
     title: {
