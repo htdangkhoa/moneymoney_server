@@ -126,7 +126,7 @@ router.post("/authentication/forgot", (req, res) => {
             from: "MoneyMoneyApp",
             to: email,
             subject: "Password problem",
-            html: global.emailTemplate("http://" + req.headers.host + "/forgot/" + user.session)
+            html: global.emailTemplate("http://" + req.headers.host + "/authentication/forgot/" + user.session)
         }, (error, info) => {
             if (error) return global.errorHandler(res, 200, "An error has occurred, please try again later.");
         });

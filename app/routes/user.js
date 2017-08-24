@@ -8,7 +8,7 @@ let router = global.variables.router,
  * @param {string} id Id of user (Required).
  * @example <caption>Requesting /info?id=599717c3f4c70605197d9ed8 with the following GET data.</caption>
  */
-router.get("/info", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.get("/user/info", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.param("id");
 
     if (
@@ -40,7 +40,7 @@ router.get("/info", passport.authenticate("jwt", { session: false }), (req, res)
  *  id: "59789c0db2638003d2712f95"
  * }
  */
-router.patch("/info", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.patch("/user/info", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id,
         name = req.body.name,
         avatar = req.body.avatar;
