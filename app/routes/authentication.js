@@ -75,7 +75,8 @@ router.post("/authentication/sign_in", (req, res) => {
 router.post("/authentication/register", (req, res) => {
     var email = req.body.email,
         password = req.body.password,
-        name = req.body.name;
+        name = req.body.name,
+        avatar = req.body.avatar;
 
     if (
         global.isEmpty(email) || 
@@ -86,7 +87,8 @@ router.post("/authentication/register", (req, res) => {
     new User({
         email,
         password,
-        name
+        name,
+        avatar
     })
     .save((error, result) => {
         if (error && error.code === 11000) {

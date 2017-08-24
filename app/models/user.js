@@ -15,6 +15,10 @@ let User = new Schema({
         type: Schema.Types.String,
         default: function() { return uuid.v4() }
     },
+    avatar: {
+        type: Schema.Types.String,
+        default: ""
+    },
     email: {
         type: Schema.Types.String,
         required: true,

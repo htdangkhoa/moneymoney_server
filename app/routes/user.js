@@ -18,7 +18,7 @@ router.get("/info", passport.authenticate("jwt", { session: false }), (req, res)
     User
     .findOne({
         _id
-    }, ["email", "name", "cards"])
+    }, ["avatar", "email", "name", "cards"])
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
@@ -42,11 +42,12 @@ router.get("/info", passport.authenticate("jwt", { session: false }), (req, res)
  */
 router.patch("/info", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id,
-        name = req.body.name;
+        name = req.body.name,
+        avatar = req.body.avatar;
+        
 
     if (
-        global.isEmpty(_id) || 
-        global.isEmpty(name)
+        global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
@@ -54,7 +55,8 @@ router.patch("/info", passport.authenticate("jwt", { session: false }), (req, re
         _id
     }, {
         $set: {
-            name
+            name,
+            avatar
         }
     })
     .then(user => {
