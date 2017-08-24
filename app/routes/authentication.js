@@ -49,7 +49,7 @@ router.post("/authentication/sign_in", (req, res) => {
             }
             var payload = crypto.encrypt(JSON.stringify(data));
             var token = jwt.sign(payload, crypto.secret);
-            return global.successHandler(res, 302, {
+            return global.successHandler(res, 200, {
                 token
             });
         });
@@ -90,7 +90,7 @@ router.post("/authentication/register", (req, res) => {
     })
     .save((error, result) => {
         if (error && error.code === 11000) {
-            return global.errorHandler(res, 302, "Email already exist.");
+            return global.errorHandler(res, 200, "Email already exist.");
         }
 
         return global.successHandler(res, 200, "Register success.");

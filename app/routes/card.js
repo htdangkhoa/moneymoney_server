@@ -55,7 +55,7 @@ router.post("/card/create", passport.authenticate("jwt", { session: false }), (r
         var cards = user.cards;
 
         for (var i = 0; i < cards.length; i++) {
-            if (cards[i].number === number) return global.errorHandler(res, 302, "Card already exist.");
+            if (cards[i].number === number) return global.errorHandler(res, 200, "Card already exist.");
         }
 
         user.cards.push({
