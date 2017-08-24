@@ -24,7 +24,7 @@ Index | API | Description | Method | Params | Types
 **2** | `/authentication/sign_in` | To sign in, you must enter email and password. | **POST** | `email`, `password` | String, String
 **3** | `/user/info` | To get info, you must **sign in** and enter email. | **GET** | `email` | String
 **4** | `/user/info` | To edit info, you must **sign in** and enter email and name. | **PATCH** | `email`, `name`, `avatar` | String, String
-**5** | `/forgot` | To request reset password, you must enter email. | **POST** | `email` | String
+**5** | `/authentication/forgot` | To request reset password, you must enter email. | **POST** | `email` | String
 **6** | `/authentication/reset/<session>` | To rreset password, you must enter session, new password and confirm password. | **POST** | `session`, `newPassword`, `confirmPassword` | String, String, String
 **7** | `/v1/card/create` | To create card,  you must **sign in** and enter type, amount, name, expiration, card number, cvv and email. | **POST** | `type`, `amount`, `name`, `exp`, `number`, `cvv`, `email` | String, Number, String, Number, Number, Number, String
 **8** | `/v1/cards` | To get all info of user's card, you must **sign in** and enter id. | **GET** | `id` | String
