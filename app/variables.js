@@ -4,13 +4,12 @@ let express = require("express"),
     router = express.Router(),
     morgan = require("morgan"),
     mongoose = require("mongoose"),
-    cookieParser = require("cookie-parser"),
-    session = require('client-sessions'),
     bodyParser = require("body-parser"),
     cors = require("cors"),
     bcrypt = require("bcryptjs"),
     uuid = require("uuid"),
     passport = require("passport"),
+    jwt = require("jsonwebtoken"),
     helmet = require("helmet"),
     compression = require("compression"),
     types_card = ["credit", "normal", "orther"];
@@ -325,7 +324,7 @@ global.successHandler = (response, code, successData) => {
         successData
     })
 }
-  global.renderHandler = (response, code, filename, params) => {
+global.renderHandler = (response, code, filename, params) => {
     return response.status(code).render(filename, params || {});
 }
 global.isEmpty = (value) => {
@@ -348,8 +347,7 @@ global.variables = {
     bcrypt,
     uuid,
     passport,
-    session,
-    cookieParser,
+    jwt,
     helmet,
     compression,
     types_card

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon --no-deprecation server.js"
   },
   "author": "Huynh Tran Dang Khoa",
   "license": "ISC",
@@ -12,21 +12,20 @@
     "apicache": "^0.8.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
-    "client-sessions": "^0.8.0",
     "compression": "^1.7.0",
-    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "crypto": "^1.0.1",
     "dotenv": "^4.0.0",
     "ejs": "^2.5.6",
     "express": "^4.15.3",
     "helmet": "^3.8.0",
+    "jsonwebtoken": "^7.4.2",
     "mongo-express": "^0.42.0",
     "mongoose": "^4.9.10",
     "morgan": "^1.8.2",
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
-    "sriracha": "^1.0.0",
+    "passport-jwt": "^2.1.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
