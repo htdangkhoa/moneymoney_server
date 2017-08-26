@@ -3,7 +3,7 @@ let router = global.variables.router,
     User = global.User,
     passport = global.passport,
     jwt = global.variables.jwt,
-    crypto = require("../crypto"),
+    crypto = global.variables.crypto,
     secret = global.variables.secret,
     nodemailer = require("nodemailer"),
     transporter = nodemailer.createTransport({
@@ -65,11 +65,13 @@ router.post("/authentication/sign_in", (req, res) => {
  * @param {string} email Email (Required).
  * @param {string} password Password (Required).
  * @param {string} name User's name (Required).
+ * @param {string} avatar Avatar of user (Option)
  * @example <caption>Requesting /authentication/register with the following POST data.</caption>
  * {
  *  email: 'abc@gmail.com',
  *  password: '1',
- *  name: 'Abc'
+ *  name: 'Abc',
+ *  avatar: <base64_string>
  * }
  */
 router.post("/authentication/register", (req, res) => {

@@ -12,6 +12,7 @@
     "apicache": "^0.8.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
+    "client-sessions": "^0.8.0",
     "compression": "^1.7.0",
     "cors": "^2.8.4",
     "crypto": "^1.0.1",
