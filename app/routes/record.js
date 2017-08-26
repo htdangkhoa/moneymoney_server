@@ -99,7 +99,7 @@ router.get("/records", passport.authenticate("jwt", { session: false }), (req, r
  * @instance
  * @param {string} id Id of card (Required).
  * @param {string} mode [Balance|Income] (Required).
- * @param {category} category [Food|Education|Sport|...] (Required).
+ * @param {string} category [Food|Education|Sport|...] (Required).
  * @example <caption>Requesting /v1/records/Expense/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
 router.get("/records/:mode/:category", passport.authenticate("jwt", { session: false }), (req, res) => {
@@ -109,7 +109,8 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
 
     if (
         global.isEmpty(card) || 
-        global.isEmpty(mode)
+        global.isEmpty(mode) || 
+        global.isEmpty(category)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     if (

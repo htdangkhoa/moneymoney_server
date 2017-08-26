@@ -221,6 +221,10 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false }), (re
  * @param {string} id_user Id of user (Required).
  * @param {string} id Card id (Required).
  * @example <caption>Requesting /v1/card/delete with the following DELETE data.</caption>
+ * {
+ *  id_user: '599717c3f4c70605197d9ed8',
+ *  id: '77602157-3ae6-4762-85cf-5eca01314d92'
+ * }
  */
 router.delete("/card/delete", passport.authenticate("jwt", { session: false }), (req, res) => {
     var _id = req.body.id_user,
