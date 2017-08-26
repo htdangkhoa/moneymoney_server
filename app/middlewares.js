@@ -1,6 +1,7 @@
 let express = global.variables.express,
     app =  global.variables.app,
     morgan = global.variables.morgan,
+    session = global.variables.session,
     cors = global.variables.cors,
     bodyParser = global.variables.bodyParser,
     mongoose = global.variables.mongoose,
@@ -17,6 +18,12 @@ app.set("view engine", "ejs");
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
+app.use(session({
+  cookieName: 'session',
+  secret: 'dAnGkho4*7896#',
+  duration: 1000 * 60 * 60 * 24 * 365 * 999,
+  // activeDuration: 5 * 60 * 1000,
+}));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
