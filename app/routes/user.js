@@ -33,10 +33,12 @@ router.get("/user/info", passport.authenticate("jwt", { session: false }), (req,
  * @function edit_info
  * @instance
  * @param {string} name Name of user (Required).
+ * @param {string} avatar Avatar of user (Required).
  * @param {string} id Id of user (Required).
  * @example <caption>Requesting /info with the following PATCH data.</caption>
  * {
  *  name: "Dang Khoa",
+ *  avatar: <base64_string>,
  *  id: "59789c0db2638003d2712f95"
  * }
  */
