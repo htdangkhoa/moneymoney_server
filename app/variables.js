@@ -11,6 +11,7 @@ let express = require("express"),
     uuid = require("uuid"),
     passport = require("passport"),
     jwt = require("jsonwebtoken"),
+    crypto = require("./crypto"),
     helmet = require("helmet"),
     compression = require("compression"),
     types_card = ["credit", "normal", "orther"];
@@ -350,6 +351,7 @@ global.variables = {
     uuid,
     passport,
     jwt,
+    crypto,
     helmet,
     compression,
     types_card
