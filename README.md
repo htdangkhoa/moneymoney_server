@@ -18,6 +18,9 @@ $ nodemon server.js
 ```
 
 ### #API
+
+**Note:** For APIs that require account authentication, you must add Headers Authorization: "JWT <token_string>"
+
 API | Authorization | Method | Params
 ----|-------------|--------|-------
 `/authentication/sign_in`|**NO**|**POST**|`email`, `password`|String, String

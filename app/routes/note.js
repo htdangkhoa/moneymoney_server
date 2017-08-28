@@ -16,7 +16,7 @@ let router = global.variables.router
  *  id: "599717c3f4c70605197d9ed8"
  * }
  */
-router.post("/note/create", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.post("/note/create", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var title = req.body.title,
         content = req.body.content,
         _id = req.body.id;
@@ -52,7 +52,7 @@ router.post("/note/create", passport.authenticate("jwt", { session: false }), (r
  * @param {string} id Id of user (Required).
  * @example <caption>Requesting /v1/notes?id=599717c3f4c70605197d9ed8 with the following GET data.</caption>
  */
-router.get("/notes", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.get("/notes", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var _id = req.param("id");
 
     if (
@@ -91,7 +91,7 @@ router.get("/notes", passport.authenticate("jwt", { session: false }), (req, res
  *  id: 59789c0db2638003d2712f95
  * }
  */
-router.delete("/note/delete", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.delete("/note/delete", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var _id = req.body.id;
 
     if (
@@ -124,7 +124,7 @@ router.delete("/note/delete", passport.authenticate("jwt", { session: false }), 
  *  id: "59789c0db2638003d2712f95"
  * }
  */
-router.patch("/note/edit", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.patch("/note/edit", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var _id = req.body.id,
         title = req.body.title,
         content = req.body.content;
