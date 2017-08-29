@@ -51,6 +51,9 @@ router.post("/authentication/sign_in", (req, res) => {
             var token = jwt.sign(payload, crypto.secret);
             return global.successHandler(res, 200, {
                 id: user._id,
+                avatar: user.avatar,
+                name: user.name,
+                email,
                 token
             });
         });

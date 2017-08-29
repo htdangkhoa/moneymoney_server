@@ -11,8 +11,11 @@ let Record = new Schema({
     },
     
     datetime: {
-        type: Schema.Types.String,
-        required: true
+        type: Schema.Types.Date,
+        required: true,
+        default: () => {
+            return new Date();
+        }
     },
     mode: {
         type: Schema.Types.String,

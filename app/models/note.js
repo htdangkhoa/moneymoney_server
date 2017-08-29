@@ -9,8 +9,10 @@ let Note = new Schema({
         }
     },
     datetime: {
-        type: Schema.Types.String,
-        default: new Date().getTime()
+        type: Schema.Types.Date,
+        default: () => {
+            return new Date();
+        }
     },
     user: {
         type: Schema.Types.ObjectId,

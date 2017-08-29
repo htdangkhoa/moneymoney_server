@@ -1,4 +1,5 @@
-let router = global.variables.router
+let router = global.variables.router,
+    mongoose = global.variables.mongoose,
     Note = global.Note,
     User = global.User,
     passport = global.passport;
@@ -65,13 +66,21 @@ router.get("/notes", passport.authenticate("jwt", { session: false, failureRedir
     })
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "User does not exist.");
-        
+
         Note
-        .find({
-            user: _id
-        })
-        .then(notes => {
-            return global.successHandler(res, 201, notes);
+        .aggregate([{
+            $match: {
+                user: mongoose.Types.ObjectId(_id)
+            }
+        }, {
+            $project: {
+                title: "$title",
+                content: "$content",
+                time: { $dateToString: { format: "%d-%m-%Y %H:%M:%S", date: "$datetime" } }
+            }
+        }])
+        .then(result => {
+            return global.successHandler(res, 200, result);
         })
         .catch(error => {
             return global.errorHandler(res, 200, error);

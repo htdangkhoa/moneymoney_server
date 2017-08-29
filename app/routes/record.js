@@ -29,7 +29,6 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         picture = req.body.picture;
 
     if (
-        global.isEmpty(datetime) || 
         global.isEmpty(mode) || 
         global.isEmpty(category) || 
         global.isEmpty(card) || 
@@ -42,7 +41,7 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
     ) return global.errorHandler(res, 200, "Now, we just supported 'Balance' and 'Income'.");
 
     new Record({
-        datetime,
+        datetime: new Date(parseInt(datetime)*1000),
         mode: mode.toLowerCase(),
         category,
         card,
@@ -69,23 +68,29 @@ router.get("/records", passport.authenticate("jwt", { session: false, failureRed
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Record
-    .aggregate([
-        {
-            $match: {
-                card
-            }
-        },
-        {
-            $group: {
-                _id: {
-                    category: "$category"
-                },
-                sum: {
-                    $sum: "$value"
-                }
+    .aggregate([{
+        $match: {
+            card
+        }
+    }, {
+        $project: {
+            month: { $month: "$datetime" },
+            year: { $year: "$datetime" },
+            category: "$category",
+            value: "$value"
+        }
+    }, {
+        $group: {
+            _id: {
+                category: "$category",
+                month: "$month",
+                year: "$year"
+            },
+            sum: {
+                $sum: "$value"
             }
         }
-    ])
+    }])
     .then(result => {
         return global.successHandler(res, 200, result);
     })
@@ -117,13 +122,23 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
         mode.toLowerCase() != "expense" && 
         mode.toLowerCase() != "income"
     ) return global.errorHandler(res, 200, "Now, we just supported 'Expense' and 'Income'.");
-
+    
     Record
-    .find({
-        card,
-        mode,
-        category
-    })
+    .aggregate([{
+        $match: {
+            card,
+            mode,
+            category
+        }
+    }, {
+        $project: {
+            month: { $month: "$datetime" },
+            year: { $year: "$datetime" },
+            category: "$category",
+            value: "$value",
+            time: { $dateToString: { format: "%d-%m-%Y %H:%M:%S", date: "$datetime" } }
+        }
+    }])
     .then(result => {
         return global.successHandler(res, 200, result);
     })
