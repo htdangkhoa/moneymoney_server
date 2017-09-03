@@ -23,8 +23,8 @@ let Record = new Schema({
     mode: {
         type: Schema.Types.String,
         required: true
-    }
-    card: {
+    },
+    category: {
         type: Schema.Types.String,
         required: true
     },
