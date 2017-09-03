@@ -53,6 +53,7 @@ router.post("/authentication/sign_in", (req, res) => {
                 id: user._id,
                 avatar: user.avatar,
                 name: user.name,
+                cards: user.cards,
                 email,
                 token
             });

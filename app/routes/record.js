@@ -36,9 +36,9 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
     ) return global.errorHandler(res, 400, "Bad request.");
 
     if (
-        mode.toLowerCase() != "balance" && 
+        mode.toLowerCase() != "expense" && 
         mode.toLowerCase() != "income"
-    ) return global.errorHandler(res, 200, "Now, we just supported 'Balance' and 'Income'.");
+    ) return global.errorHandler(res, 200, "Now, we just supported 'Expense' and 'Income'.");
 
     new Record({
         datetime: new Date(parseInt(datetime)*1000),
@@ -61,28 +61,42 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
  * @example <caption>Requesting /v1/records?id=0c4f2df1-5229-406d-9548-337a2dcc6d15 with the following GET data.</caption>
  */
 router.get("/records", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
-    var card = req.param("id");
+    // var card = req.param("id");
 
-    if (
-        global.isEmpty(card)
-    ) return global.errorHandler(res, 400, "Bad request.");
+    // if (
+    //     global.isEmpty(card)
+    // ) return global.errorHandler(res, 400, "Bad request.");
 
     Record
+    // .aggregate([{
+    //     $group: {
+    //         _id: {
+    //             category: "$category",
+    //             date: "$datetime"
+    //         },
+    //         sum: {
+    //             $sum: "$value"
+    //         }
+    //     }
+    // }, {
+    //     $project: {
+    //         month: { $month: "$datetime" },
+    //         year: { $year: "$datetime" }
+    //     }
+    // }])
     .aggregate([{
-        $match: {
-            card
-        }
-    }, {
         $project: {
-            month: { $month: "$datetime" },
-            year: { $year: "$datetime" },
             category: "$category",
-            value: "$value"
+            type: "$mode",
+            value: "$value",
+            month: { $month: "$datetime" },
+            year: { $year: "$datetime" }
         }
     }, {
         $group: {
             _id: {
                 category: "$category",
+                type: "$type",
                 month: "$month",
                 year: "$year"
             },
@@ -108,12 +122,10 @@ router.get("/records", passport.authenticate("jwt", { session: false, failureRed
  * @example <caption>Requesting /v1/records/Expense/Food?id=0c4f2df1-5229-406d-9548-337a2dcc6d15&category=Food with the following GET data.</caption>
  */
 router.get("/records/:mode/:category", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
-    var card = req.param("id"),
-        mode = req.params.mode;
+    var mode = req.params.mode;
         category = req.params.category;
 
     if (
-        global.isEmpty(card) || 
         global.isEmpty(mode) || 
         global.isEmpty(category)
     ) return global.errorHandler(res, 400, "Bad request.");
@@ -126,7 +138,6 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
     Record
     .aggregate([{
         $match: {
-            card,
             mode,
             category
         }
