@@ -1,4 +1,5 @@
 let router = global.variables.router,
+    mongoose = global.variables.mongoose,
     Record = global.Record;
 
 /**
@@ -69,7 +70,7 @@ router.get("/records", passport.authenticate("jwt", { session: false, failureRed
 
     Record
     .aggregate([{
-        $match: { user }
+        $match: { user: mongoose.Types.ObjectId(user) }
     }, {
         $project: {
             category: "$category",
