@@ -24,7 +24,6 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         datetime = req.body.datetime,
         mode = req.body.mode,
         category = req.body.category,
-        card = req.body.card,
         value = req.body.value,
         note = req.body.note,
         picture = req.body.picture;
@@ -33,7 +32,6 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         global.isEmpty(user) || 
         global.isEmpty(mode) || 
         global.isEmpty(category) || 
-        global.isEmpty(card) || 
         isNaN(parseInt(value))
     ) return global.errorHandler(res, 400, "Bad request.");
 
@@ -47,7 +45,6 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         datetime: new Date(parseInt(datetime)*1000),
         mode: mode.toLowerCase(),
         category,
-        card,
         value,
         note: note || "",
         picture: picture || ""
