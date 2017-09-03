@@ -96,13 +96,13 @@ router.get("/records", passport.authenticate("jwt", { session: false, failureRed
         $group: {
             _id: {
                 category: "$category",
-                type: "$type",
-                month: "$month",
-                year: "$year"
             },
             sum: {
                 $sum: "$value"
-            }
+            },
+            type: { $first: "$type" },
+            month: { $first: "$month" },
+            year: { $first: "$year" }
         }
     }])
     .then(result => {
