@@ -33,7 +33,7 @@ API | Authorization | Method | Params
 `/cards`|**YES**|**GET**|`id`
 `/card/edit`|**YES**|**PATCH**|`id`, `id_user`, `type`, `balance`, `name`, `exp`, `number`, `cvv`
 `/card/delete`|**YES**|**DELETE**|`id_user`, `id`
-`/record/create`|**YES**|**POST**|`datetime`, `category`, `card`, `value`
+`/record/create`|**YES**|**POST**|`id`, `datetime`, `category`, `card`, `value`
 `/records`|**YES**|**GET**|`id`
 `/records/<mode>/<category>`|**YES**|**GET**|`id`
 `/record/delete`|**YES**|**DELETE**|`id`

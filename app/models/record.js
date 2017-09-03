@@ -9,7 +9,10 @@ let Record = new Schema({
             return mongoose.Types.ObjectId();
         }
     },
-    
+    user: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     datetime: {
         type: Schema.Types.Date,
         required: true,
