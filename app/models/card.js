@@ -1,8 +1,7 @@
 let mongoose = global.variables.mongoose,
-    uuid = global.variables.uuid,
     Schema = mongoose.Schema;
 
-let Record = new Schema({
+let Card = new Schema({
     _id: {
         type: Schema.Types.ObjectId,
         default: () => {
@@ -13,35 +12,31 @@ let Record = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    datetime: {
-        type: Schema.Types.Date,
-        required: true,
-        default: () => {
-            return new Date();
-        }
-    },
-    mode: {
+    type: {
         type: Schema.Types.String,
         required: true
     },
-    card: {
-        type: Schema.Types.String,
-        required: true
-    },
-    category: {
-        type: Schema.Types.String,
-        required: true
-    },
-    value: {
+    amount: {
         type: Schema.Types.Number,
         required: true
     },
-    note: {
-        type: Schema.Types.String
+    name: {
+        type: Schema.Types.String,
+        required: true
     },
-    picture: {
-        type: Schema.Types.String
+    exp: {
+        type: Schema.Types.Date,
+        required: true
     },
+    number: {
+        type: Schema.Types.String,
+        required: true,
+        unique: true
+    },
+    cvv: {
+        type: Schema.Types.Number,
+        required: true
+    }
 });
 
-global.Record = mongoose.model("record", Record);
+global.Card = mongoose.model("card", Card);

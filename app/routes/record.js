@@ -1,6 +1,7 @@
 let router = global.variables.router,
     mongoose = global.variables.mongoose,
-    Record = global.Record;
+    Record = global.Record,
+    Card = global.Card;
 
 /**
  * @function create_record
@@ -25,6 +26,7 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         datetime = req.body.datetime,
         mode = req.body.mode,
         category = req.body.category,
+        card = req.body.card,
         value = req.body.value,
         note = req.body.note,
         picture = req.body.picture;
@@ -33,6 +35,7 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         global.isEmpty(user) || 
         global.isEmpty(mode) || 
         global.isEmpty(category) || 
+        global.isEmpty(card) || 
         isNaN(parseInt(value))
     ) return global.errorHandler(res, 400, "Bad request.");
 
@@ -41,18 +44,33 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         mode.toLowerCase() != "income"
     ) return global.errorHandler(res, 200, "Now, we just supported 'Expense' and 'Income'.");
 
-    new Record({
-        user,
-        datetime: new Date(parseInt(datetime)*1000),
-        mode: mode.toLowerCase(),
-        category,
-        value,
-        note: note || "",
-        picture: picture || ""
+    Card
+    .findOne({
+        _id: mongoose.Types.ObjectId(card)
     })
-    .save();
+    .then(result => {
+        if (!result) return global.errorHandler(res, 200, "This card does not exist.");
 
-    return global.successHandler(res, 200, "The record was created successfully.");
+        new Record({
+            user,
+            datetime: new Date(parseInt(datetime)*1000),
+            mode: mode.toLowerCase(),
+            card,
+            category,
+            value,
+            note: note || "",
+            picture: picture || ""
+        })
+        .save();
+
+        result.amount = result.amount - value;
+        result.save();
+
+        return global.successHandler(res, 200, "The record was created successfully.");
+    })
+    .catch(error => {
+        return global.errorHandler(res, 200, error);
+    });
 });
 
 /**
@@ -120,7 +138,7 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
     Record
     .aggregate([{
         $match: {
-            mode,
+            mode: mode.toLowerCase(),
             category
         }
     }, {

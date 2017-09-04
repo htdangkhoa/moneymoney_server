@@ -63,11 +63,13 @@ app.use("/admin", mongo_express({
 
   defaultKeyNames: {},
 }));
-app.use("/v1", require("./routes/authentication"));
-app.use("/v1", require("./routes/user"));
-app.use("/v1", require("./routes/card"));
-app.use("/v1", require("./routes/record"));
-app.use("/v1", require("./routes/note"));
+app.use("/v1", [
+  require("./routes/authentication"),
+  require("./routes/user"),
+  require("./routes/card"),
+  require("./routes/record"),
+  require("./routes/note")
+])
 
 app.use((req, res) => {
   res.status(404).render("404");

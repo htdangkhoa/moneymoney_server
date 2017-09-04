@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("./app/variables");
 require("./app/models/user");
+require("./app/models/card");
 require("./app/models/record");
 require("./app/models/note");
 require("./app/passport/passport");

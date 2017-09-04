@@ -22,7 +22,7 @@
     "helmet": "^3.8.0",
     "jsonwebtoken": "^7.4.2",
     "mongo-express": "^0.42.0",
-    "mongoose": "^4.9.10",
+    "mongoose": "^4.11.10",
     "morgan": "^1.8.2",
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
