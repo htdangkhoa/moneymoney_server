@@ -173,11 +173,19 @@ router.delete("/record/delete", passport.authenticate("jwt", { session: false, f
     if (
         global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
-
+    
     Record
-    .remove({ _id })
-    .exec()
-    .then(result => {
+    .findOneAndRemove({ _id })
+    .then(record => {
+        Card
+        .findOne({
+            _id: record.card
+        })
+        .then(card => {
+            card.amount -= record.value;
+            card.save();
+        });
+        
         return global.successHandler(res, 200, "The record was deleted successfully.");
     })
     .catch(error => {
@@ -236,6 +244,13 @@ router.patch("/record/edit", passport.authenticate("jwt", { session: false, fail
     })
     .then(record => {
         if (!record) return global.errorHandler(res, 404, "This record does not exist.");
+
+        Card
+        .findOne({ _id: record.card })
+        .then(card => {
+            card.amount = card.amount + record.value - value;
+            card.save();
+        })
         
         return global.successHandler(res, 200, "The record was updated successfully.");
     })

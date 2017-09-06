@@ -28,7 +28,7 @@ API | Authorization | Method | Params
 `/authentication/forgot`|**NO**|**POST**|`email`
 `/authentication/reset/<session>`|**NO**|**POST**|`newPassword`, `confirmPassword`
 `/user/info`|**YES**|**GET**|`id`
-`/user/info`|**YES**|**PATCH**|`id`, `name`, `avatar`
+`/user/info`|**YES**|**PATCH**|`id`, `name`, `avatar`, `old_password`, `new_password`
 `/card/create`|**YES**|**POST**|`id`, `type`, `balance`, `name`, `exp`, `number`, `cvv`
 `/cards`|**YES**|**GET**|`id`
 `/card/edit`|**YES**|**PATCH**|`id`, `id_user`, `type`, `balance`, `name`, `exp`, `number`, `cvv`

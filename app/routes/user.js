@@ -20,7 +20,7 @@ router.get("/user/info", passport.authenticate("jwt", { session: false, failureR
     User
     .findOne({
         _id
-    }, ["avatar", "email", "name", "cards"])
+    }, ["avatar", "email", "name"])
     .then(user => {
         if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
@@ -50,14 +50,15 @@ router.patch("/user/info", passport.authenticate("jwt", { session: false, failur
     var _id = req.body.id,
         name = req.body.name,
         avatar = req.body.avatar,
-        password = req.body.password;
+        old_password = req.body.old_password,
+        new_password = req.body.new_password;
         
 
     if (
         global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
 
-    if (global.isEmpty(password)) {
+    if (global.isEmpty(new_password)) {
         User
         .findOneAndUpdate({
             _id
@@ -85,22 +86,28 @@ router.patch("/user/info", passport.authenticate("jwt", { session: false, failur
         .then(user => {
             if (!user) return global.errorHandler(res, 404, "User does not exist.");
 
-            user.name = name;
-            user.avatar = avatar;
-            user.password = password;
-            user.save();
+            user.comparePassword(old_password, (err, isMatch) => {
+                if (err) return global.errorHandler(res, 200, err);
 
-            var data = {
-                email: user.email,
-                password: user.password
-            }
-            var payload = crypto.encrypt(JSON.stringify(data));
-            var token = jwt.sign(payload, crypto.secret);
-            console.log(token)
-    
-            return global.successHandler(res, 200, {
-                message: "Your info was updated successfully.",
-                token
+                if (!isMatch) return global.successHandler(res, 200, "Old password is not correct.");
+
+                user.name = name;
+                user.avatar = avatar;
+                user.password = new_password;
+                user.save();
+
+                var data = {
+                    email: user.email,
+                    password: new_password
+                }
+                var payload = crypto.encrypt(JSON.stringify(data));
+                var token = jwt.sign(payload, crypto.secret);
+                console.log(token)
+        
+                return global.successHandler(res, 200, {
+                    message: "Your info was updated successfully.",
+                    token
+                });
             });
         })
         .catch(error => {
