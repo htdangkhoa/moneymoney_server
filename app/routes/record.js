@@ -123,7 +123,8 @@ router.get("/records", passport.authenticate("jwt", { session: false, failureRed
  */
 router.get("/records/:mode/:category", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var mode = req.params.mode;
-        category = req.params.category;
+        category = req.params.category,
+        card = req.param("id");
 
     if (
         global.isEmpty(mode) || 
@@ -139,7 +140,8 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
     .aggregate([{
         $match: {
             mode: mode.toLowerCase(),
-            category
+            category,
+            card
         }
     }, {
         $project: {
