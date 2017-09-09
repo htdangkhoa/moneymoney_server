@@ -16,6 +16,10 @@ let Card = new Schema({
         type: Schema.Types.String,
         required: true
     },
+    balance: {
+        type: Schema.Types.Number,
+        required: true
+    },
     amount: {
         type: Schema.Types.Number,
         required: true

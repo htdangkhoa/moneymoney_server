@@ -7,7 +7,7 @@ let User = global.User,
  * @function create_card
  * @instance
  * @param {string} type [credit|normal|orther] (Required).
- * @param {string} amount Amount of user's card (Required).
+ * @param {string} balance Balance of user's card (Required).
  * @param {string} name Card holder (Required).
  * @param {string} exp Expiration of user's card [timestamp] (Required).
  * @param {string} number Card number (Required).
@@ -17,7 +17,7 @@ let User = global.User,
  * @example <caption>Requesting /v1/card/create with the following POST data.</caption>
  * {
  *  type: credit,
- *  amount: 123456789,
+ *  balance: 123456789,
  *  name: 'Huynh Tran Dang Khoa',
  *  exp: 1500879600,
  *  number: '4214-9458-0103-2509',
@@ -28,7 +28,7 @@ let User = global.User,
 router.post("/card/create", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var user = req.body.id,
         type = req.body.type,
-        amount = req.body.amount,
+        balance = req.body.balance,
         name = req.body.name,
         exp = req.body.exp,
         number = req.body.number,
@@ -37,11 +37,10 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
     if (
         global.isEmpty(user) || 
         global.variables.types_card.indexOf(type) === -1 || 
-        isNaN(parseInt(amount)) ||
+        isNaN(parseInt(balance)) ||
         global.isEmpty(name) ||
         global.isEmpty(exp) ||
-        global.isEmpty(number) ||
-        isNaN(parseInt(amount))
+        global.isEmpty(number)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     User
@@ -54,7 +53,8 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
         new Card({
             user,
             type,
-            amount,
+            balance,
+            amount: balance,
             name,
             exp: new Date(parseInt(exp)*1000),
             number,
@@ -106,7 +106,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false, failureRedir
  * @param {string} id_user Id of user (Required).
  * @param {string} id Card id (Required).
  * @param {string} type [credit|normal|orther] (Required).
- * @param {string} amount Amount of user's card (Required).
+ * @param {string} balance Balance of user's card (Required).
  * @param {string} name Card holder (Required).
  * @param {string} exp Expiration of user's card [timestamp] (Required).
  * @param {string} number Card number (Required).
@@ -117,7 +117,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false, failureRedir
  *  id_user: '599717c3f4c70605197d9ed8',
  *  id: '4e480b6d-7cfa-4a05-9509-db524863738d',
  *  type: credit,
- *  amount: 123456789,
+ *  balance: 123456789,
  *  name: 'Huynh Tran Dang Khoa',
  *  exp: 1500879600,
  *  number: '4214-9458-0103-2509',
@@ -127,7 +127,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false, failureRedir
 router.patch("/card/edit", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var _id = req.body.id,
         type = req.body.type,
-        amount = req.body.amount,
+        balance = req.body.balance,
         name = req.body.name,
         exp = req.body.exp,
         number = req.body.number,
@@ -136,11 +136,10 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false, failur
     if (
         global.isEmpty(_id) || 
         global.variables.types_card.indexOf(type) === -1 || 
-        isNaN(parseInt(amount)) ||
+        isNaN(parseInt(balance)) ||
         global.isEmpty(name) ||
         global.isEmpty(exp) ||
-        global.isEmpty(number) ||
-        isNaN(parseInt(amount))
+        global.isEmpty(number)
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Card
@@ -149,7 +148,7 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false, failur
     }, {
         $set: {
             type,
-            amount,
+            balance,
             name,
             exp,
             number,
