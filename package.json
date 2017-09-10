@@ -21,6 +21,7 @@
     "express": "^4.15.3",
     "helmet": "^3.8.0",
     "jsonwebtoken": "^7.4.2",
+    "localtunnel": "^1.8.3",
     "mongo-express": "^0.42.0",
     "mongoose": "^4.11.10",
     "morgan": "^1.8.2",

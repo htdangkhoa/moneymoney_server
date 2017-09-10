@@ -99,7 +99,7 @@ router.get("/records", passport.authenticate("jwt", { session: false, failureRed
         }
     }, {
         $group: {
-            _id: { category: "$category", type: "$type" },
+            _id: { category: "$category", type: "$type", month: "$month", year: "$year" },
             sum: { $sum: "$value" },
             month: { $first: "$month" },
             year: { $first: "$year" }
