@@ -27,20 +27,6 @@ if (cluster.isMaster) {
         cluster.fork();
     });
 }else {
-    var options = {
-        subdomain: "moneymoney",
-        local_host: "localhost",
-    }
-
-    var tunnel = localtunnel(process.env.PORT, options, (err, tunnel) => {
-        if (err) console.log(err);
-    
-        console.log(tunnel.url)
-    });
-    tunnel.on("close", () => {
-        console.log("Tunnel are closed.")
-    });
-    
     app.listen(process.env.PORT, () => {
         console.log("Worker " + process.pid + " started");
     });
