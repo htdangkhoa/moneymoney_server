@@ -9,13 +9,17 @@ let express = global.variables.express,
     helmet = global.variables.helmet,
     compression = global.variables.compression,
     mongo_express = require("mongo-express/lib/middleware"),
-    ejs = require("ejs");
+    ejs = require("ejs"),
+    fs = require("fs"),
+    path = require("path");
 
 mongoose.connect(process.env.DB_URI);
 
 app.set("view engine", "ejs");
-
 app.use(morgan("dev"));
+app.use(morgan("tiny", {
+  stream: fs.createWriteStream(path.join(__dirname, "./logs") + "/server.log", { flags: "a" })
+}));
 app.use(helmet());
 app.use(compression());
 app.use(session({

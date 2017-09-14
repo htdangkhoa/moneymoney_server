@@ -7,8 +7,6 @@ require("./app/models/note");
 require("./app/passport/passport");
 require("./app/middlewares");
 
-var localtunnel = require("localtunnel");
-
 let app = global.variables.app,
     cluster = require("cluster")
     numCPUs = require("os").cpus().length;

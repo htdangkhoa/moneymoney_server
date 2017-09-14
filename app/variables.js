@@ -15,8 +15,9 @@ let express = require("express"),
     helmet = require("helmet"),
     compression = require("compression"),
     types_card = ["credit", "normal", "orther"];
-    
+
 app.use(express.static(path.join(__dirname, "./public")));
+app.use(express.static(path.join(__dirname, "./logs")));
     
 global.emailTemplate = (link) => {
   return `<!doctype html>
