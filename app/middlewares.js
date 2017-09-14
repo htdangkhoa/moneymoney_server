@@ -17,7 +17,7 @@ mongoose.connect(process.env.DB_URI);
 
 app.set("view engine", "ejs");
 app.use(morgan("dev"));
-app.use(morgan("tiny", {
+app.use(morgan("combined", {
   stream: fs.createWriteStream(path.join(__dirname, "./logs") + "/server.log", { flags: "a" })
 }));
 app.use(helmet());
