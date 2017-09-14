@@ -12,6 +12,9 @@ let Card = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
+    image: {
+        type: Schema.Types.String
+    },
     type: {
         type: Schema.Types.String,
         required: true

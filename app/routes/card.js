@@ -91,7 +91,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false, failureRedir
         user
     })
     .then(result => {
-        if (result.length === 0) return global.errorHandler(res, 404, "User does not exist.");
+        if (result.length === 0) return global.errorHandler(res, 200, "You have not got any cards yet.");
 
         return global.successHandler(res, 200, result);
     })
