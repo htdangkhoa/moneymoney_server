@@ -27,6 +27,7 @@ let User = global.User,
  */
 router.post("/card/create", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var user = req.body.id,
+        image = req.body.image,
         type = req.body.type,
         balance = req.body.balance,
         name = req.body.name,
@@ -36,7 +37,7 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
 
     if (
         global.isEmpty(user) || 
-        global.variables.types_card.indexOf(type) === -1 || 
+        global.isEmpty(type) ||
         isNaN(parseInt(balance)) ||
         global.isEmpty(name) ||
         global.isEmpty(exp) ||
@@ -52,11 +53,12 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
 
         new Card({
             user,
+            image,
             type,
             balance,
             amount: balance,
             name,
-            exp: new Date(parseInt(exp)*1000),
+            exp,
             number,
             cvv
         })
@@ -135,7 +137,7 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false, failur
     
     if (
         global.isEmpty(_id) || 
-        global.variables.types_card.indexOf(type) === -1 || 
+        global.isEmpty(type) ||
         isNaN(parseInt(balance)) ||
         global.isEmpty(name) ||
         global.isEmpty(exp) ||

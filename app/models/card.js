@@ -13,7 +13,8 @@ let Card = new Schema({
         required: true
     },
     image: {
-        type: Schema.Types.String
+        type: Schema.Types.String,
+        default: ""
     },
     type: {
         type: Schema.Types.String,
@@ -32,7 +33,7 @@ let Card = new Schema({
         required: true
     },
     exp: {
-        type: Schema.Types.Date,
+        type: Schema.Types.String,
         required: true
     },
     number: {

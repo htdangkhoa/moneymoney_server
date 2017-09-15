@@ -13,8 +13,7 @@ let express = require("express"),
     jwt = require("jsonwebtoken"),
     crypto = require("./crypto"),
     helmet = require("helmet"),
-    compression = require("compression"),
-    types_card = ["credit", "normal", "orther"];
+    compression = require("compression");
 
 app.use(express.static(path.join(__dirname, "./public")));
 app.use(express.static(path.join(__dirname, "./logs")));
@@ -354,6 +353,5 @@ global.variables = {
     jwt,
     crypto,
     helmet,
-    compression,
-    types_card
+    compression
 }
