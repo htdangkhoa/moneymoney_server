@@ -63,7 +63,12 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         })
         .save();
 
-        result.amount = result.amount - value;
+        if (mode.toLowerCase() === "expense") {
+            result.usedTotal = parseInt(result.usedTotal) - parseInt(value);    
+        }else {
+            result.usedTotal = parseInt(result.usedTotal) + parseInt(value);
+        }
+        
         result.save();
 
         return global.successHandler(res, 200, "The record was created successfully.");
@@ -184,7 +189,11 @@ router.delete("/record/delete", passport.authenticate("jwt", { session: false, f
             _id: record.card
         })
         .then(card => {
-            card.amount -= record.value;
+            if (record.mode.toLowerCase() === "expense") {
+                card.usedTotal = parseInt(card.usedTotal) + parseInt(record.value);
+            }else {
+                card.usedTotal = parseInt(card.usedTotal) - parseInt(record.value);
+            }
             card.save();
         });
         
@@ -250,7 +259,11 @@ router.patch("/record/edit", passport.authenticate("jwt", { session: false, fail
         Card
         .findOne({ _id: record.card })
         .then(card => {
-            card.amount = card.amount + record.value - value;
+            if (record.mode.toLowerCase() === "expense") {
+                card.usedTotal = parseInt(card.usedTotal) + parseInt(record.value) - parseInt(value);
+            }else {
+                card.usedTotal = parseInt(card.usedTotal) - parseInt(record.value) + parseInt(value);
+            }
             card.save();
         })
         

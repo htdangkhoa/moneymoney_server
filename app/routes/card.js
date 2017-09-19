@@ -56,7 +56,6 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
             image,
             type,
             balance,
-            amount: balance,
             name,
             exp,
             number,

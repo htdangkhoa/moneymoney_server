@@ -25,7 +25,7 @@ let Record = new Schema({
         required: true
     },
     card: {
-        type: Schema.Types.String,
+        type: Schema.Types.ObjectId,
         required: true
     },
     category: {

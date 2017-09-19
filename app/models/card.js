@@ -24,9 +24,9 @@ let Card = new Schema({
         type: Schema.Types.Number,
         required: true
     },
-    amount: {
+    usedTotal: {
         type: Schema.Types.Number,
-        required: true
+        default: 0
     },
     name: {
         type: Schema.Types.String,
