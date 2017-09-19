@@ -1,3 +1,4 @@
 /node_modules
 *.css.map
 /.sass-cache
+/app/logs
