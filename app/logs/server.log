@@ -1,0 +1,1 @@
+::1 - - [20/Sep/2017:09:47:09 +0000] "GET /v1/records/income/Test?id=59bcb1061a92b40393729ed0 HTTP/1.1" 200 282 "-" "PostmanRuntime/6.3.2"
