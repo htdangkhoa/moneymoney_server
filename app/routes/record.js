@@ -129,7 +129,7 @@ router.get("/records", passport.authenticate("jwt", { session: false, failureRed
 router.get("/records/:mode/:category", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var mode = req.params.mode;
         category = req.params.category,
-        card = req.param("id");
+        user = req.param("id");
 
     if (
         global.isEmpty(mode) || 
@@ -146,7 +146,7 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
         $match: {
             mode: mode.toLowerCase(),
             category,
-            card
+            user: mongoose.Types.ObjectId(user)
         }
     }, {
         $project: {
@@ -154,7 +154,9 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
             year: { $year: "$datetime" },
             category: "$category",
             value: "$value",
-            time: { $dateToString: { format: "%d-%m-%Y %H:%M:%S", date: "$datetime" } }
+            value: "$value",
+            note: "$note",
+            time: { $dateToString: { format: "%d/%m/%Y %H:%M:%S", date: "$datetime" } }
         }
     }])
     .then(result => {

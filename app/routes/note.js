@@ -76,7 +76,7 @@ router.get("/notes", passport.authenticate("jwt", { session: false, failureRedir
             $project: {
                 title: "$title",
                 content: "$content",
-                time: { $dateToString: { format: "%d-%m-%Y %H:%M:%S", date: "$datetime" } }
+                time: { $dateToString: { format: "%d/%m/%Y %H:%M:%S", date: "$datetime" } }
             }
         }])
         .then(result => {
