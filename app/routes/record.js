@@ -177,7 +177,7 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
  * }
  */
 router.delete("/record/delete", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
-    var _id = req.body.id;
+    var _id = req.param("id");
 
     if (
         global.isEmpty(_id)
