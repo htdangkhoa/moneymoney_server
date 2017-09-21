@@ -178,7 +178,7 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false, failur
  * }
  */
 router.delete("/card/delete", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
-    var _id = req.body.id;
+    var _id = req.param("id");
     
     if (
         global.isEmpty(_id)
