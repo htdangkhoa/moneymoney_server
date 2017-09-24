@@ -101,7 +101,7 @@ router.get("/notes", passport.authenticate("jwt", { session: false, failureRedir
  * }
  */
 router.delete("/note/delete", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
-    var _id = req.param("id");
+    var _id = req.body.id || req.param("id");
 
     if (
         global.isEmpty(_id)

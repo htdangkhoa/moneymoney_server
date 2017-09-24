@@ -152,10 +152,12 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
         $project: {
             month: { $month: "$datetime" },
             year: { $year: "$datetime" },
+            mode: "$mode",
             category: "$category",
-            value: "$value",
+            card: "$card",
             value: "$value",
             note: "$note",
+            picture: "$picture",
             time: { $dateToString: { format: "%d/%m/%Y %H:%M:%S", date: "$datetime" } }
         }
     }])
@@ -177,18 +179,18 @@ router.get("/records/:mode/:category", passport.authenticate("jwt", { session: f
  * }
  */
 router.delete("/record/delete", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
-    var _id = req.param("id");
+    var _id = req.body.id || req.param("id");
 
     if (
         global.isEmpty(_id)
     ) return global.errorHandler(res, 400, "Bad request.");
     
     Record
-    .findOneAndRemove({ _id })
+    .findOneAndRemove({ _id: mongoose.Types.ObjectId(_id) })
     .then(record => {
         Card
         .findOne({
-            _id: record.card
+            _id: mongoose.Types.ObjectId(record.card)
         })
         .then(card => {
             if (record.mode.toLowerCase() === "expense") {
@@ -243,31 +245,65 @@ router.patch("/record/edit", passport.authenticate("jwt", { session: false, fail
     ) return global.errorHandler(res, 400, "Bad request.");
 
     Record
-    .findOneAndUpdate({
-        _id
-    }, {
-        $set: {
-            datetime,
-            category,
-            card,
-            value,
-            note: note || "",
-            picture: picture || ""
-        }
+    .findOne({
+        _id: mongoose.Types.ObjectId(_id)
     })
     .then(record => {
-        if (!record) return global.errorHandler(res, 404, "This record does not exist.");
+        if (!record) return global.errorHandler(res, 200, "This record does not exist.");
 
-        Card
-        .findOne({ _id: record.card })
-        .then(card => {
-            if (record.mode.toLowerCase() === "expense") {
-                card.usedTotal = parseInt(card.usedTotal) + parseInt(record.value) - parseInt(value);
-            }else {
-                card.usedTotal = parseInt(card.usedTotal) - parseInt(record.value) + parseInt(value);
-            }
-            card.save();
-        })
+        if (record.card != card) {
+            Card
+            .findOne({ _id: mongoose.Types.ObjectId(record.card) })
+            .then(card => {
+                if (record.mode.toLowerCase() === "expense") {
+                    card.usedTotal = parseInt(card.usedTotal) + parseInt(value);
+                }else {
+                    card.usedTotal = parseInt(card.usedTotal) - parseInt(value);
+                }
+                card.save();
+            })
+
+            Card
+            .findOne({ _id: mongoose.Types.ObjectId(card) })
+            .then(card => {
+                if (record.mode.toLowerCase() === "expense") {
+                    card.usedTotal = parseInt(card.usedTotal) - parseInt(value);
+                }else {
+                    card.usedTotal = parseInt(card.usedTotal) + parseInt(value);
+                }
+                card.save();
+            })
+        }else {
+            Card
+            .findOne({ _id: mongoose.Types.ObjectId(card) })
+            .then(card => {
+                if (record.mode.toLowerCase() === "expense") {
+                    if (card.usedTotal === 0) {
+                        card.usedTotal = parseInt(card.usedTotal) - parseInt(value);
+                    }else {
+                        console.log(card.usedTotal)
+                        card.usedTotal = parseInt(card.usedTotal) + parseInt(record.value) - parseInt(value);
+                        console.log(card.usedTotal)
+                    }
+                }else {
+                    if (card.usedTotal === 0) {
+                        card.usedTotal = parseInt(card.usedTotal) + parseInt(value);
+                    }else {
+                        card.usedTotal = parseInt(card.usedTotal) - parseInt(record.value) + parseInt(value);
+                    }
+                }
+                card.save();
+            })
+        }
+        
+
+        record.datetime = new Date(parseInt(datetime)*1000),
+        record.category = category,
+        record.card = card,
+        record.value = value,
+        record.note = note || "",
+        record.picture = picture || ""
+        record.save();
         
         return global.successHandler(res, 200, "The record was updated successfully.");
     })
