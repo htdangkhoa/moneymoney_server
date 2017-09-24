@@ -3,3 +3,4 @@
 /.sass-cache
 app/logs
 *.log
+package-lock.json
