@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "forever start -e ./app/logs/moneymoney-production-error.log -o ./app/logs/moneymoney-production-out.log server.js",
-    "stop": "forever stop server.js"
+    "start": "nodemon --no-deprecation server.js"
   },
   "author": "Huynh Tran Dang Khoa",
   "license": "ISC",
@@ -30,6 +29,6 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "forever": "^0.15.3"
+    "nodemon": "^1.12.1"
   }
 }
