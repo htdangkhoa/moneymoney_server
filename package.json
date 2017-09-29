@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --no-deprecation server.js"
+    "start": "nodemon --no-deprecation server.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Huynh Tran Dang Khoa",
   "license": "ISC",
@@ -26,9 +28,11 @@
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "snyk": "^1.41.1"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"
-  }
+  },
+  "snyk": true
 }
