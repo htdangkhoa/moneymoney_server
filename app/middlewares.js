@@ -9,8 +9,7 @@ let express = global.variables.express,
     compression = global.variables.compression,
     mongo_express = require("mongo-express/lib/middleware"),
     ejs = require("ejs"),
-    fs = require("fs"),
-    path = require("path");
+    session = require("client-sessions");
 
 mongoose.connect(process.env.DB_URI);
 
@@ -18,6 +17,12 @@ app.set("view engine", "ejs");
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
+app.use(session({
+  cookieName: 'session',
+  secret: 'dAnGkho4*7896#',
+  duration: 1000 * 60 * 60 * 24 * 365 * 999,
+  // activeDuration: 5 * 60 * 1000,
+}));
 app.use(cors());
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -62,7 +67,8 @@ app.use("/v1", [
   require("./routes/user"),
   require("./routes/card"),
   require("./routes/record"),
-  require("./routes/note")
+  require("./routes/note"),
+  require("./routes/transfer")
 ])
 
 app.use((req, res) => {

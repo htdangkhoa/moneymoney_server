@@ -68,6 +68,8 @@ router.post("/record/create", passport.authenticate("jwt", { session: false, fai
         }else {
             result.usedTotal = parseInt(result.usedTotal) + parseInt(value);
         }
+
+        result.balance += result.usedTotal;
         
         result.save();
 
@@ -195,9 +197,12 @@ router.delete("/record/delete", passport.authenticate("jwt", { session: false, f
         .then(card => {
             if (record.mode.toLowerCase() === "expense") {
                 card.usedTotal = parseInt(card.usedTotal) + parseInt(record.value);
+                card.balance += record.value;
             }else {
                 card.usedTotal = parseInt(card.usedTotal) - parseInt(record.value);
+                card.balance -= record.value;
             }
+
             card.save();
         });
         

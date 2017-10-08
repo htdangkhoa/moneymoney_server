@@ -20,13 +20,16 @@ let Card = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    balance: {
+    start: {
         type: Schema.Types.Number,
         required: true
     },
     usedTotal: {
         type: Schema.Types.Number,
         default: 0
+    },
+    balance: {
+        type: Schema.Types.Number
     },
     name: {
         type: Schema.Types.String,

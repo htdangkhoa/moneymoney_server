@@ -7,7 +7,7 @@ let User = global.User,
  * @function create_card
  * @instance
  * @param {string} type [credit|normal|orther] (Required).
- * @param {string} balance Balance of user's card (Required).
+ * @param {string} start start of user's card (Required).
  * @param {string} name Card holder (Required).
  * @param {string} exp Expiration of user's card [timestamp] (Required).
  * @param {string} number Card number (Required).
@@ -17,7 +17,7 @@ let User = global.User,
  * @example <caption>Requesting /v1/card/create with the following POST data.</caption>
  * {
  *  type: credit,
- *  balance: 123456789,
+ *  start: 123456789,
  *  name: 'Huynh Tran Dang Khoa',
  *  exp: 1500879600,
  *  number: '4214-9458-0103-2509',
@@ -29,7 +29,7 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
     var user = req.body.id,
         image = req.body.image,
         type = req.body.type,
-        balance = req.body.balance,
+        start = req.body.start,
         name = req.body.name,
         exp = req.body.exp,
         number = req.body.number,
@@ -38,7 +38,7 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
     if (
         global.isEmpty(user) || 
         global.isEmpty(type) ||
-        isNaN(parseInt(balance)) ||
+        isNaN(parseInt(start)) ||
         global.isEmpty(name) ||
         global.isEmpty(exp) ||
         global.isEmpty(number)
@@ -55,7 +55,8 @@ router.post("/card/create", passport.authenticate("jwt", { session: false, failu
             user,
             image,
             type,
-            balance,
+            start,
+            balance: start,
             name,
             exp,
             number,
@@ -107,7 +108,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false, failureRedir
  * @param {string} id_user Id of user (Required).
  * @param {string} id Card id (Required).
  * @param {string} type [credit|normal|orther] (Required).
- * @param {string} balance Balance of user's card (Required).
+ * @param {string} start start of user's card (Required).
  * @param {string} name Card holder (Required).
  * @param {string} exp Expiration of user's card [timestamp] (Required).
  * @param {string} number Card number (Required).
@@ -118,7 +119,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false, failureRedir
  *  id_user: '599717c3f4c70605197d9ed8',
  *  id: '4e480b6d-7cfa-4a05-9509-db524863738d',
  *  type: credit,
- *  balance: 123456789,
+ *  start: 123456789,
  *  name: 'Huynh Tran Dang Khoa',
  *  exp: 1500879600,
  *  number: '4214-9458-0103-2509',
@@ -128,7 +129,7 @@ router.get("/cards", passport.authenticate("jwt", { session: false, failureRedir
 router.patch("/card/edit", passport.authenticate("jwt", { session: false, failureRedirect: "/unauthorized" }), (req, res) => {
     var _id = req.body.id,
         type = req.body.type,
-        balance = req.body.balance,
+        start = req.body.start,
         name = req.body.name,
         exp = req.body.exp,
         number = req.body.number,
@@ -137,7 +138,7 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false, failur
     if (
         global.isEmpty(_id) || 
         global.isEmpty(type) ||
-        isNaN(parseInt(balance)) ||
+        isNaN(parseInt(start)) ||
         global.isEmpty(name) ||
         global.isEmpty(exp) ||
         global.isEmpty(number)
@@ -149,7 +150,7 @@ router.patch("/card/edit", passport.authenticate("jwt", { session: false, failur
     }, {
         $set: {
             type,
-            balance,
+            start,
             name,
             exp,
             number,
