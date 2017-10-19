@@ -8,8 +8,8 @@
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
-  "author": "Huynh Tran Dang Khoa",
-  "license": "ISC",
+  "author": "Huynh Tran Dang Khoa <huynhtran.dangkhoa@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "apicache": "^0.8.7",
     "bcryptjs": "^2.4.3",
@@ -33,7 +33,8 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "snyk": "^1.44.1"
   },
   "snyk": true
 }
