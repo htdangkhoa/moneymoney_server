@@ -52,7 +52,6 @@ router.patch("/user/info", passport.authenticate("jwt", { session: false, failur
         avatar = req.body.avatar,
         old_password = req.body.old_password,
         new_password = req.body.new_password;
-        
 
     if (
         global.isEmpty(_id)
@@ -72,7 +71,8 @@ router.patch("/user/info", passport.authenticate("jwt", { session: false, failur
             if (!user) return global.errorHandler(res, 404, "User does not exist.");
     
             return global.successHandler(res, 200, {
-                message: "Your info was updated successfully."
+                message: "Your info was updated successfully.",
+                token: ""
             });
         })
         .catch(error => {
@@ -89,7 +89,7 @@ router.patch("/user/info", passport.authenticate("jwt", { session: false, failur
             user.comparePassword(old_password, (err, isMatch) => {
                 if (err) return global.errorHandler(res, 200, err);
 
-                if (!isMatch) return global.successHandler(res, 200, "Old password is not correct.");
+                if (!isMatch) return global.errorHandler(res, 200, "Old password is not correct.");
 
                 user.name = name;
                 user.avatar = avatar;
