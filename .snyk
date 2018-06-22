@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.12.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -22,3 +22,8 @@ patch:
         patched: '2017-09-29T03:42:05.546Z'
     - mongo-express > express > serve-static > send > debug:
         patched: '2017-09-29T03:42:05.546Z'
+  'npm:hoek:20180212':
+    - passport-jwt > jsonwebtoken > joi > hoek:
+        patched: '2018-06-22T01:36:18.278Z'
+    - passport-jwt > jsonwebtoken > joi > topo > hoek:
+        patched: '2018-06-22T01:36:18.278Z'
