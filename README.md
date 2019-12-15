@@ -1,5 +1,7 @@
 # moneymoney_server
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/htdangkhoa/moneymoney_server.svg)](https://greenkeeper.io/)
+
 ### #System requirements
   - [NodeJS](https://nodejs.org/en/)
   - [MongoDB](https://www.mongodb.com)
