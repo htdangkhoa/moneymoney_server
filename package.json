@@ -29,12 +29,12 @@
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
-    "snyk": "^1.41.1",
+    "snyk": "^1.316.1",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1",
-    "snyk": "^1.44.1"
+    "snyk": "^1.316.1"
   },
   "snyk": true
 }
